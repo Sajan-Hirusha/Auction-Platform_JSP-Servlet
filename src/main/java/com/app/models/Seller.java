@@ -29,6 +29,12 @@ public class Seller {
       this.password=password;
    }
 
+   public Seller(String email,String password) throws SQLException, ClassNotFoundException {
+      this();
+      this.email=email;
+      this.password=password;
+   }
+
    public String getFullName() {
       return fullName;
    }
@@ -72,9 +78,9 @@ public class Seller {
 
       String sql = "Insert Into seller (sellerID, fullName,phoneNo,businessName,email,password)VALUES (?,?,?,?,?,?)";
 
-      String sellerID=generateSellerId();
+      String nextSellerID=generateSellerId();
       PreparedStatement statement = connection.prepareStatement(sql);
-      statement.setString(1,sellerID);
+      statement.setString(1,nextSellerID);
       statement.setString(2,this.getFullName());
       statement.setInt(3,this.getPhoneNumber());
       statement.setString(4,this.getBusinessName());
@@ -84,21 +90,40 @@ public class Seller {
       return statement.executeUpdate() > 0;
    }
 
+   public boolean sellerLogin() throws SQLException {
+      String sql = "SELECT password FROM seller WHERE email=?";
+
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setString(1,getEmail());
+
+      ResultSet resultSet = statement.executeQuery();
+      if (resultSet.next()) {
+         String resultPass=resultSet.getString("password");
+         System.out.println(resultPass);
+         if (this.getPassword().equals(resultPass)) {
+            return true;
+         }
+      }
+     return false;
+   }
+
    public String generateSellerId() throws SQLException {
-      String sql = "Select sellerNo from seller ORDER BY sellerNo DESC LIMIT 1";
+      String sql = "Select sellerID from seller ORDER BY CAST(SUBSTRING(sellerID,5) AS UNSIGNED) DESC LIMIT 1";
       PreparedStatement statement = connection.prepareStatement(sql);
 
       ResultSet resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
-                 int sellerNo=resultSet.getInt("sellerNo");
-
-                 String sellerID="SEL/".concat(String.valueOf(sellerNo+1));
-                 return sellerID;
+                 String lastSellerID=resultSet.getString("sellerID");
+                 String spliData[]=lastSellerID.split("/");
+                 String lastIntegerAsString=spliData[1];
+                 int lastIntegerAsInt=Integer.parseInt(lastIntegerAsString);
+                 lastIntegerAsInt++;
+                 String nextSellerID="SEL/"+lastIntegerAsInt;
+                 return nextSellerID;
       }else{
-         int sellerNo=1;
-         String sellerID="SEL/".concat(String.valueOf(sellerNo));
-         return sellerID;
+         String nextSellerID="SEL/"+1;
+         return nextSellerID;
       }
    }
 }

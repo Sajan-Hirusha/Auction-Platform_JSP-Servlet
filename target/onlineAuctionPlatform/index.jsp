@@ -1,6 +1,6 @@
 <html>
 <body>
-<%@include file="sellerJsp/SellerRegistrationForm.jsp"%>
+<%@include file="/JspFiles/webpageInterfaceJsp/interface.jsp"%>
 
 </body>
 </html>

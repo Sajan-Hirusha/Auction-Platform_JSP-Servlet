@@ -26,7 +26,7 @@ public class SellerRegistrationFormServlet extends HttpServlet{
             if(password.equals(confirmPassword)){
                 Seller seller=new Seller(fullName,email,businessName,phoneNumber,password);
                 if(seller.saveSeller()){
-                    resp.sendRedirect("sellerJsp/sellerDashboard.jsp");
+                    resp.sendRedirect("/JspFiles/sellerJsp/sellerDashboard.jsp");
                 }else {
                     resp.sendRedirect("error.jsp?message=" + "Incorrect data");
                 }

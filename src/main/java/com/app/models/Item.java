@@ -146,11 +146,18 @@ public class Item {
 
         return statement.executeUpdate() > 0;
     }
+    public boolean deleteItem(String id) throws SQLException {
+
+        String sql = "DELETE FROM item WHERE itemId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, id);
+
+        return statement.executeUpdate() > 0;
+    }
 
     public String generateItemId() throws SQLException {
         String sql = "Select itemId from item ORDER BY CAST(SUBSTRING(itemId,6) AS UNSIGNED) DESC LIMIT 1";
         PreparedStatement statement = connection.prepareStatement(sql);
-
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
@@ -229,9 +236,11 @@ public class Item {
             String itemImageUrl = resultSet.getString("itemImageUrl");
             String itemCondition = resultSet.getString("itemCondition");
             String categoryName = getCategoryName(resultSet.getString("categoryID"));
+            String sellerId = resultSet.getString("Seller_sellerID");
 
             Item item = new Item(description, itemName, itemImageUrl, itemCondition, categoryName);
             item.setItemId(itemId);
+            item.setSellerID(sellerId);
             return item;
         }
         return null;

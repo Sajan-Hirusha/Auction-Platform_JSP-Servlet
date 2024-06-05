@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.app.models.Item" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Dilki
   Date: 6/3/2024
@@ -15,8 +16,68 @@
 <body>
 <a href="addItem.jsp" class="btn btn-secondary">Add listing</a>
 <a  href="../../viewListings" class="btn btn-secondary">View listing</a>
-<a href="../../viewListingsForUpdate" class="btn btn-secondary">Update listing</a>
-<a href="removeListing.jsp" class="btn btn-secondary">Remove listing</a>
+<a href="../../viewListingsForUpdateAndDelete?id=update" class="btn btn-secondary">Update listing</a>
+<a href="../../viewListingsForUpdateAndDelete?id=delete" class="btn btn-secondary">Delete listing</a>
+<a href="../../viewListingsForUpdateAndDelete?id=placeAuction" class="btn btn-secondary">Place Auction</a>
+
+<h1>Active Auctions</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ItemId</th>
+                    <th>ItemName</th>
+                    <th>Item Description</th>
+                    <th>Item Condition</th>
+                    <th>Item Category</th>
+                    <th>Item image</th>
+                </tr>
+                </thead>
+                <tbody>
+                <div class="col-12">
+                    <a href="/JspFiles/sellerJsp/sellerDashboard.jsp" class="btn btn-primary" type="submit">back To seller dashboard</a>
+                </div>
+                <%
+                    List<Item> items = (List<Item>) request.getAttribute("items");
+                    if (items != null) {
+                        for (Item item : items) {
+                %>
+                <tr>
+                    <td><%= item.getItemId() %></td>
+                    <td><%= item.getItemName() %></td>
+                    <td><%= item.getDescription() %></td>
+                    <td><%= item.getCondition() %></td>
+                    <td><%= item.getCategory() %></td>
+                    <%--                    <td><%= item.getItemImageUrl() %></td>--%>
+                    <td><%= item.getItemImageUrl() %></td>
+                    <%--                    <img src="../../p" alt="">--%>
+                    <td><img style="height: 100px; width: 100px;" src="../../productImages/<%=item.getItemImageUrl()%>" ></td>
+                    <%--                    <td><img src="../uploads/" style="width: 100px; height: 100px"></td>--%>
+                </tr>
+                <%
+                    }
+                } else {
+                %>
+                <tr>
+                    <td colspan="6">No items found.</td>
+                </tr>
+                <%
+                    }
+                %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
 </body>
 </html>

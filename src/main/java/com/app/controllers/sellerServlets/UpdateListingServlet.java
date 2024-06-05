@@ -61,7 +61,7 @@ public class UpdateListingServlet extends HttpServlet {
             Item item = new Item(description, itemName, dbFilePath,condition, category);
             item.setItemId(itemId);
             if (item.updateItem()) {
-                resp.sendRedirect("../../viewListingsForUpdate");
+                resp.sendRedirect("../../viewListingsForUpdateAndDelete?id=update");
             } else {
                 resp.sendRedirect("error.jsp?message=" + "Incorrect data");
             }

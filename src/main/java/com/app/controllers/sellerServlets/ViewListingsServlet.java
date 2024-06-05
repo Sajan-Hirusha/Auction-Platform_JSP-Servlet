@@ -28,7 +28,6 @@ public class ViewListingsServlet extends HttpServlet{
             allItems =  item.getItemList();
             if (allItems != null) {
                 request.setAttribute("items", allItems);
-                System.out.println(allItems.size());
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/JspFiles/sellerJsp/viewItems.jsp");
                 dispatcher.forward(request, response);
             }

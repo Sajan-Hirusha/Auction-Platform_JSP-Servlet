@@ -29,7 +29,7 @@ public class SellerLoginServlet extends HttpServlet {
 
         try {
             if (seller.sellerLogin()) {
-                resp.sendRedirect("/JspFiles/sellerJsp/sellerDashboard.jsp");
+                resp.sendRedirect("../viewActiveItems");
             } else {
                 resp.sendRedirect("error.jsp?message=" + "Incorrect data");
             }

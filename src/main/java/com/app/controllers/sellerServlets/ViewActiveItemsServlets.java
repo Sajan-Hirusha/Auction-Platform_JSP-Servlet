@@ -1,5 +1,6 @@
 package com.app.controllers.sellerServlets;
 
+import com.app.models.Auction;
 import com.app.models.Item;
 
 import javax.servlet.RequestDispatcher;
@@ -13,25 +14,25 @@ import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/viewListingsForUpdate")
-public class ViewListingsForUpdateServlet extends HttpServlet{
+@WebServlet("/viewActiveItems")
+public class ViewActiveItemsServlets extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         List<Item> allItems = null;
         try {
-            Item item=new Item();
-            item.setSellerID("SEL/1");
-            allItems =  item.getItemList();
+            Auction auction = new Auction();
+            auction.setSellerId("SEL/1");
+            allItems =  auction.getSellerActiveAuctionItems();
+
             if (allItems != null) {
+//                System.out.println(allItems);
                 request.setAttribute("items", allItems);
-                System.out.println(allItems.size());
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/JspFiles/sellerJsp/viewItemsForUpdate.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/JspFiles/sellerJsp/sellerDashboard.jsp");
                 dispatcher.forward(request, response);
             }
-            // Forward the request to the JSP for rendering
-//            request.getRequestDispatcher("sellerJsp/viewItems.jsp").forward(request, response);
+
         } catch (ClassNotFoundException | SQLException e) {
             response.sendRedirect("error.jsp?message=" + URLEncoder.encode(e.toString(), "UTF-8"));
 

@@ -25,6 +25,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <div class="col-12">
+                    <a href="/JspFiles/sellerJsp/sellerDashboard.jsp" class="btn btn-primary" type="submit">back To seller dashboard</a>
+                </div>
                 <%
                     List<Item> items = (List<Item>) request.getAttribute("items");
                     if (items != null) {

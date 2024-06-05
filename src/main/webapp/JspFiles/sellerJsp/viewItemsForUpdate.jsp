@@ -9,7 +9,9 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-
+<div class="col-12">
+    <a href="/JspFiles/sellerJsp/sellerDashboard.jsp" class="btn btn-primary" type="submit">back To seller dashboard</a>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-12">

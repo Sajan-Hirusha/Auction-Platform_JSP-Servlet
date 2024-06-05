@@ -13,7 +13,8 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<a href="JspFiles/sellerJsp/SellerRegistrationForm.jsp" class="btn btn-secondary">Register</a>
-<a  href="JspFiles/sellerJsp/SellerLogin.jsp" class="btn btn-secondary">Logging</a>
+<a href="JspFiles/webpageInterfaceJsp/sellerUI.jsp" class="btn btn-secondary">Seller</a>
+<a href="JspFiles/webpageInterfaceJsp/customerUI.jsp" class="btn btn-secondary">Customer</a>
+
 </body>
 </html>

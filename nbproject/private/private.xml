@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/removeListing.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/SellerLogin.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/customerServlets/CustomerRegistrationFormServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/updateListing.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/viewItems.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/classes/Bid.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/customerJsp/bidForm.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/viewItemsForPlaceAuction.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/index.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/customerJsp/customerDashboard.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/sellerServlets/ViewListingsServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/customerServlets/CustomerLoginServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JS/formValidation.js</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/sellerServlets/RemoveListingServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/classes/AuctionStatusChecker.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/classes/Customer.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/classes/Auction.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/classes/AuctionScheduler.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/CSS/Login.css</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/sellerServlets/PlaceAuctionServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/classes/Item.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/sellerDashboard.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/WEB-INF/web.xml</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/viewItemsForDelete.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/customerJsp/customerRegistrationForm.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/customerJsp/customerLogin.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/placeAuction.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/sellerServlets/SellerLoginServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/sellerServlets/ViewActiveItemsServlets.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/customerServlets/SubmitBidServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/SellerRegistrationForm.jsp</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/src/java/com/app/servlets/sellerServlets/SellerRegistrationFormServlet.java</file>
+            <file>file:/E:/2.2%20sem/RAD/Activity/OnlineAuctionSystem/web/JspFiles/sellerJsp/viewItemsForUpdate.jsp</file>
+        </group>
+    </open-files>
+</project-private>

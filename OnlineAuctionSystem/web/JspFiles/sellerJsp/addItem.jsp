@@ -43,8 +43,7 @@
                     try {
                        Item newItem = new Item(description, itemName, fileBytes, condition, category, sellerID);
                         if (newItem.addItem()) {
-                             message = "add item";
-                            response.sendRedirect(request.getContextPath() + "/JspFiles/sellerJsp/addItem.jsp");
+                             message = "Item Added Successfully!";
                         } else {
                             message = "Failed to add item";
                         }
@@ -59,7 +58,7 @@
              System.out.println(message);
         %>
 
-         <div id="alertContainer"></div>
+         <div id="alertContainer1"></div>
          
           <div class="col-12">
             <a href="sellerDashboard.jsp" class="btn btn-primary" type="submit">Back to seller dashboard</a>
@@ -94,7 +93,7 @@
                             <select class="form-select" id="validationCustom06" name="category" required>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="tech">Tech</option>
-                                <option value="home">Home</option>
+                                <option value="decorations">Decorations</option>
                                 <option value="electronic">Electronic</option>
                             </select>
                             <div class="valid-feedback">
@@ -139,7 +138,7 @@
         <script>
             var serverMessage = "<%= message%>";
         </script>
-        <script src="../../JS/main.js"></script>
+      <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

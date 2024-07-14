@@ -14,7 +14,8 @@ public class Seller {
     private String businessName;
     private int phoneNumber;
     private String password;
-
+ private String sellerID;
+ 
     private final Connection connection;
 
     public Seller() throws ClassNotFoundException, SQLException {
@@ -76,6 +77,14 @@ public class Seller {
         this.password = password;
     }
 
+    public String getSellerID() {
+        return sellerID;
+    }
+
+    public void setSellerID(String sellerID) {
+        this.sellerID = sellerID;
+    }
+    
    public String saveSeller() throws SQLException {
     String checkUserExistSql = "SELECT * FROM seller WHERE email=?";
     
@@ -112,7 +121,7 @@ public class Seller {
 }
 
     public boolean sellerLogin() throws SQLException {
-        String sql = "SELECT password FROM seller WHERE email=?";
+        String sql = "SELECT sellerID,password FROM seller WHERE email=?";
 
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, getEmail());
@@ -122,6 +131,7 @@ public class Seller {
             String resultPass = resultSet.getString("password");
             System.out.println(resultPass);
             if (this.getPassword().equals(resultPass)) {
+                this.sellerID=resultSet.getString("sellerID");
                 return true;
             }
         }

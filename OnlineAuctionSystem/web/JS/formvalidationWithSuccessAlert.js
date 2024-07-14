@@ -1,5 +1,4 @@
-
-            document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function() {
                 if (typeof serverMessage !== 'undefined' && serverMessage !== "") {
                     showAlert(serverMessage);
                 }
@@ -21,7 +20,7 @@
             });
 
             function showAlert(message) {
-                const alertContainer = document.getElementById('alertContainer');
+                const alertContainer = document.getElementById('alertContainer1');
                 alertContainer.textContent = message;
                 alertContainer.style.display = 'block';
 
@@ -33,3 +32,4 @@
                     }, 500);
                 }, 5000);
             }
+

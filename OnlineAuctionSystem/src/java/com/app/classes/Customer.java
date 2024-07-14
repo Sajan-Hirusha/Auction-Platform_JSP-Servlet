@@ -14,7 +14,8 @@ public class Customer {
    private String address;
    private int phoneNumber;
    private String password;
-
+ private String customerID;
+ 
    private final Connection connection;
    public Customer() throws ClassNotFoundException, SQLException {
       this.connection = DbConnection.getConnection();
@@ -74,8 +75,26 @@ public class Customer {
    public void setPassword(String password) {
       this.password = password;
    }
-   public boolean saveCustomer() throws SQLException {
+   
+   public String getCustomerID() {
+        return customerID;
+    }
 
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+   public String saveCustomer() throws SQLException {
+
+        String checkUserExistSql = "SELECT * FROM customer WHERE email=?";
+    
+    try {
+        PreparedStatement statement1 = connection.prepareStatement(checkUserExistSql);
+        statement1.setString(1, this.getEmail());
+        ResultSet resultSet = statement1.executeQuery();
+
+        if (resultSet.next()) {
+            return "emailExists"; 
+        } else {
       String sql = "Insert Into customer (customerID, fullName,phoneNo,address,email,password)VALUES (?,?,?,?,?,?)";
 
       String customerID=generateCustomerId();
@@ -87,11 +106,21 @@ public class Customer {
       statement.setString(5,this.getEmail());
       statement.setString(6,this.getPassword());
 
-      return statement.executeUpdate() > 0;
+       int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                return "userAdded";
+            } else {
+                return "error";
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return "error"; 
+    }
    }
 
    public boolean customerLogin() throws SQLException {
-      String sql = "SELECT password FROM customer WHERE email=?";
+      String sql = "SELECT password,customerID  FROM customer WHERE email=?";
 
       PreparedStatement statement = connection.prepareStatement(sql);
       statement.setString(1,getEmail());
@@ -101,6 +130,7 @@ public class Customer {
          String resultPass=resultSet.getString("password");
          System.out.println(resultPass);
          if (this.getPassword().equals(resultPass)) {
+             this.customerID=resultSet.getString("customerID");
             return true;
          }
       }

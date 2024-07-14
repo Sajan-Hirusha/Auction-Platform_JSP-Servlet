@@ -4,17 +4,18 @@ import com.app.dbConnection.DbConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class Item {
 
     private String description;
     private String itemName;
-    private String itemImageUrl;
+    private byte[] itemImage;
     private String category;
     private String condition;
     private String sellerID;
-
+    private String base64Image;
     private String itemId;
 
     private final Connection connection;
@@ -23,21 +24,21 @@ public class Item {
         this.connection = DbConnection.getConnection();
     }
 
-    public Item(String description, String itemName, String itemImageUrl, String category, String condition, String sellerID) throws SQLException, ClassNotFoundException {
+    public Item(String description, String itemName, byte[] itemImage, String condition, String category, String sellerID) throws SQLException, ClassNotFoundException {
         this();
         this.description = description;
         this.itemName = itemName;
-        this.itemImageUrl = itemImageUrl;
+        this.itemImage = itemImage;
         this.category = category;
         this.condition = condition;
         this.sellerID = sellerID;
     }
 
-    public Item(String description, String itemName, String itemImageUrl, String itemCondition, String categoryName) throws SQLException, ClassNotFoundException {
+    public Item(String description, String itemName, byte[] itemImage, String itemCondition, String categoryName) throws SQLException, ClassNotFoundException {
         this();
         this.description = description;
         this.itemName = itemName;
-        this.itemImageUrl = itemImageUrl;
+        this.itemImage = itemImage;
         this.category = categoryName;
         this.condition = itemCondition;
 
@@ -59,12 +60,20 @@ public class Item {
         this.itemName = itemName;
     }
 
-    public String getItemImageUrl() {
-        return itemImageUrl;
+    public byte[] getItemImage() {
+        return itemImage;
     }
 
-    public void setItemImageUrl(String itemImageUrl) {
-        this.itemImageUrl = itemImageUrl;
+    public void setItemImage(byte[] itemImage) {
+        this.itemImage = itemImage;
+    }
+
+    public String getBase64Image() {
+        return base64Image;
+    }
+
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
     }
 
     public String getSellerID() {
@@ -74,7 +83,6 @@ public class Item {
     public void setSellerID(String sellerID) {
         this.sellerID = sellerID;
     }
-
 
     public String getCategory() {
         return category;
@@ -101,7 +109,7 @@ public class Item {
     }
 
     public boolean addItem() throws SQLException {
-        String sql = "Insert Into item (itemId, description,itemName,itemImageUrl,itemCondition,categoryID,Seller_sellerID)VALUES (?,?,?,?,?,?,?)";
+        String sql = "Insert Into item (itemId, description,itemName,itemImage,itemCondition,categoryID,Seller_sellerID)VALUES (?,?,?,?,?,?,?)";
 
         String nextItemID = generateItemId();
         String categoryID = getCategoryID(category);
@@ -109,7 +117,7 @@ public class Item {
         statement.setString(1, nextItemID);
         statement.setString(2, this.getDescription());
         statement.setString(3, this.getItemName());
-        statement.setString(4, this.getItemImageUrl());
+        statement.setBytes(4, this.getItemImage());
         statement.setString(5, this.getCondition());
         statement.setString(6, categoryID);
         statement.setString(7, this.getSellerID());
@@ -119,19 +127,19 @@ public class Item {
 
     public boolean updateItem() throws SQLException {
 
-
-        String sql = "UPDATE item SET description = ?, itemName = ?, itemImageUrl = ?, itemCondition = ?, categoryID = ? WHERE itemId = ?";
+        String sql = "UPDATE item SET description = ?, itemName = ?, itemImage = ?, itemCondition = ?, categoryID = ? WHERE itemId = ?";
         String categoryID = getCategoryID(this.category);
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, this.getDescription());
         statement.setString(2, this.getItemName());
-        statement.setString(3, this.getItemImageUrl());
+        statement.setBytes(3, this.getItemImage());
         statement.setString(4, this.getCondition());
         statement.setString(5, categoryID);
         statement.setString(6, this.getItemId());
 
         return statement.executeUpdate() > 0;
     }
+
     public boolean deleteItem(String id) throws SQLException {
 
         String sql = "DELETE FROM item WHERE itemId = ?";
@@ -191,23 +199,26 @@ public class Item {
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, this.getSellerID());
         ResultSet resultSet = statement.executeQuery();
-        List<Item> itemList = new ArrayList<Item>();
+        List<Item> itemList = new ArrayList<>();
 
         while (resultSet.next()) {
             String itemId = resultSet.getString("itemId");
             String description = resultSet.getString("description");
             String itemName = resultSet.getString("itemName");
-            String itemImageUrl = resultSet.getString("itemImageUrl");
+            byte[] itemImage = resultSet.getBytes("itemImage");
             String itemCondition = resultSet.getString("itemCondition");
             String categoryName = getCategoryName(resultSet.getString("categoryID"));
 
-            Item item = new Item(description, itemName, itemImageUrl, itemCondition, categoryName);
+            String base64Image = Base64.getEncoder().encodeToString(itemImage);
+
+            Item item = new Item(description, itemName, itemImage, itemCondition, categoryName);
             item.setItemId(itemId);
+            item.setBase64Image(base64Image);
+
             itemList.add(item);
         }
         return itemList;
     }
-
 
     public Item getItem(String itemID) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM item WHERE  itemId= ?";
@@ -219,13 +230,16 @@ public class Item {
             String itemId = resultSet.getString("itemId");
             String description = resultSet.getString("description");
             String itemName = resultSet.getString("itemName");
-            String itemImageUrl = resultSet.getString("itemImageUrl");
+            byte[] itemImage = resultSet.getBytes("itemImage");
             String itemCondition = resultSet.getString("itemCondition");
             String categoryName = getCategoryName(resultSet.getString("categoryID"));
             String sellerId = resultSet.getString("Seller_sellerID");
 
-            Item item = new Item(description, itemName, itemImageUrl, itemCondition, categoryName);
+            String base64Image = Base64.getEncoder().encodeToString(itemImage);
+            Item item = new Item(description, itemName, itemImage, itemCondition, categoryName);
             item.setItemId(itemId);
+            item.setBase64Image(base64Image);
+
             item.setSellerID(sellerId);
             return item;
         }

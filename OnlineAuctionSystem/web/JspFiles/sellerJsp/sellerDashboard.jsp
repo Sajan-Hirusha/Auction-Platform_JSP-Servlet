@@ -1,3 +1,5 @@
+<%@page import="com.app.classes.Auction"%>
+<%@page import="java.util.Base64"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="com.app.classes.Seller" %>
@@ -16,48 +18,26 @@
 </head>
 <body>
 <%
-    Seller seller = (Seller) session.getAttribute("seller");
-    if (seller == null) {
+    String sellerID = (String) session.getAttribute("sellerID");
+    if (sellerID == null) {
         response.sendRedirect("login.jsp");
         return;
     }
 
-    Connection connection = null;
     List<Item> items = new ArrayList<Item>();
+    Auction auction = new Auction();
+    auction.setSellerId(sellerID);
+    
     try {
-        connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM item WHERE Seller_sellerID = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, seller.getEmail());
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Item item = new Item();
-            item.setItemId(resultSet.getString("itemId"));
-            item.setItemName(resultSet.getString("itemName"));
-            item.setDescription(resultSet.getString("description"));
-            item.setCondition(resultSet.getString("itemCondition"));
-            item.setCategory(resultSet.getString("categoryID"));
-            item.setItemImageUrl(resultSet.getString("itemImageUrl"));
-            items.add(item);
-        }
-    } catch (Exception e) {
+        items = auction.getSellerActiveAuctionItems();
+    } catch (SQLException e) {
         e.printStackTrace();
-    } finally {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
     }
 %>
 <a href="/OnlineAuctionSystem/JspFiles/sellerJsp/addItem.jsp" class="btn btn-secondary">Add listing</a>
-<a href="../../OnlineAuctionSystem/viewListings" class="btn btn-secondary">View listing</a>
-<a href="../../OnlineAuctionSystem/viewListingsForUpdateAndDelete?id=update" class="btn btn-secondary">Update listing</a>
-<a href="../../OnlineAuctionSystem/viewListingsForUpdateAndDelete?id=delete" class="btn btn-secondary">Delete listing</a>
-<a href="../../OnlineAuctionSystem/viewListingsForUpdateAndDelete?id=placeAuction" class="btn btn-secondary">Place Auction</a>
-
+<a href="viewItems.jsp" class="btn btn-secondary">View listing</a>
 <h1>Active Auctions</h1>
 
 <div class="container">
@@ -71,7 +51,7 @@
                     <th>Item Description</th>
                     <th>Item Condition</th>
                     <th>Item Category</th>
-                    <th>Item image</th>
+                    <th>Item Image</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -85,7 +65,10 @@
                     <td><%= item.getDescription() %></td>
                     <td><%= item.getCondition() %></td>
                     <td><%= item.getCategory() %></td>
-                    <td><img style="height: 100px; width: 100px;" src="<%= request.getContextPath() %>/productImages/<%= item.getItemImageUrl() %>"></td>
+                    <td><% if (!item.getBase64Image().isEmpty()) { %>
+                        <img style="height: 100px; width: 100px;" src="data:image/jpeg;base64,<%= item.getBase64Image() %>">
+                        <% } else { %> No Image <% } %>
+                    </td>
                 </tr>
                 <%
                         }

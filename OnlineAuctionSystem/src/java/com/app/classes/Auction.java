@@ -4,6 +4,7 @@ import com.app.dbConnection.DbConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class Auction {
@@ -118,12 +119,14 @@ public class Auction {
          String itemId = resultSet.getString("itemId");
          String description = resultSet.getString("description");
          String itemName = resultSet.getString("itemName");
-         String itemImageUrl = resultSet.getString("itemImageUrl");
+         byte[] itemImage = resultSet.getBytes("itemImage");
          String itemCondition = resultSet.getString("itemCondition");
+         String base64Image = Base64.getEncoder().encodeToString(itemImage);
          Item item = new Item();
          String categoryName = item.getCategoryName(resultSet.getString("categoryID"));
-         Item resultItem = new Item(description, itemName, itemImageUrl, itemCondition, categoryName);
+         Item resultItem = new Item(description, itemName, itemImage, itemCondition, categoryName);
          resultItem.setItemId(itemId);
+         resultItem.setBase64Image(base64Image);
          itemList.add(resultItem);
       }
       return itemList;
@@ -140,12 +143,14 @@ public class Auction {
          String itemId = resultSet.getString("itemId");
          String description = resultSet.getString("description");
          String itemName = resultSet.getString("itemName");
-         String itemImageUrl = resultSet.getString("itemImageUrl");
+         byte[] itemImage = resultSet.getBytes("itemImage");
          String itemCondition = resultSet.getString("itemCondition");
+         String base64Image = Base64.getEncoder().encodeToString(itemImage);
          Item item = new Item();
          String categoryName = item.getCategoryName(resultSet.getString("categoryID"));
-         Item resultItem = new Item(description, itemName, itemImageUrl, itemCondition, categoryName);
+         Item resultItem = new Item(description, itemName, itemImage, itemCondition, categoryName);
          resultItem.setItemId(itemId);
+         resultItem.setBase64Image(base64Image);
          itemList.add(resultItem);
       }
       return itemList;

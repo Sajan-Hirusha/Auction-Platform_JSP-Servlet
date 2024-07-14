@@ -141,7 +141,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                                    <a href="SellerLogin.jsp" class="link-secondary text-decoration-none">Login With Existing Account</a>
+                                    <a href="../LoginJsp/login.jsp" class="link-secondary text-decoration-none">Login With Existing Account</a>
                                 </div>
                             </div>
                         </div>
@@ -151,72 +151,6 @@
 
 
 
-<!--        <form method="POST" action="SellerRegistrationForm.jsp" class="row g-3 needs-validation" novalidate>
-            <div class="col-md-4">
-                <label for="validationCustom01" class="form-label">Full name</label>
-                <input type="text" class="form-control" id="validationCustom01"  name="fullName" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please choose a valid Name.
-                </div>
-            </div>
-            <div class="col-md-4">
-                <label for="validationCustomUsername" class="form-label">Email</label>
-                <input type="email" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
-                       name="email" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please choose a valid Email.
-                </div>
-            </div>
-            <div class="col-md-6">
-                <label for="validationCustom03" class="form-label">Business Name</label>
-                <input type="text" class="form-control" id="validationCustom03" name="businessName" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid Business Name.
-                </div>
-            </div>
-            <div class="col-md-6">
-                <label for="validationCustom03" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="validationCustom04" name="phoneNumber" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid Phone Number.
-                </div>
-            </div>
-            <div class="col-md-6">
-                <label for="validationCustom03" class="form-label">Password</label>
-                <input type="password" class="form-control" id="validationCustom05" name="password" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid Password.
-                </div>
-            </div>
-            <div class="col-md-6">
-                <label for="validationCustom03" class="form-label">Re-enter Password</label>
-                <input type="password" class="form-control" id="validationCustom06" name="confirmPassword" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid Password.
-                </div>
-            </div>
-            <div class="col-12">
-                <button class="btn btn-primary" type="submit">Submit form</button>
-            </div>
-        </form>-->
         <script>
             var serverMessage = "<%= message%>";
         </script>

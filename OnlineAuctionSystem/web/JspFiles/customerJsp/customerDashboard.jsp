@@ -19,6 +19,8 @@
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
     <body>
+        <a href="wonItemsListOfCustomer.jsp" class="btn btn-secondary">View Won Items</a>
+        <a href="cart.jsp" class="btn btn-secondary">View Cart</a>
         <h1>Active Auctions</h1>
 
         <div class="container">
@@ -41,6 +43,7 @@
                                 try {
                                     Auction auction = new Auction();
                                     items = auction.getAllActiveAuctionItems();
+                                 
                                 } catch (Exception e) {
                                     message = "Error fetching items!";
 
@@ -59,7 +62,7 @@
                                     <img style="height: 100px; width: 100px;" src="data:image/jpeg;base64,<%= item.getBase64Image()%>">
                                     <% } else { %> No Image <% }%>
                                 </td>
-                                <td><a class="btn btn-success" href="/OnlineAuctionSystem/JspFiles/customerJsp/bidForm.jsp?id=<%=item.getItemId()%>">Bid To This</a></td>
+                               <td><a class="btn btn-success" href="/OnlineAuctionSystem/JspFiles/customerJsp/bidForm.jsp?id=<%=item.getItemId()%>&auctionId=<%=item.getAuctionIDForBID()%>">Bid To This</a></td>
 
                             </tr>
                             <%

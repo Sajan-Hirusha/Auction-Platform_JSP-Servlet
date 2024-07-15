@@ -6,24 +6,28 @@
         <title>Submit Bid</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../CSS/alertBox.css">
+        <link rel="stylesheet" href="../../CSS/alertBox.css">
     </head>
     <body>
         <%
             String message = "";
             String customerID = (String) session.getAttribute("customerID");
+            Bid bid=null;
+            Bid getMaxBid=new Bid();
             if (customerID == null) {
                 response.sendRedirect("login.jsp");
                 return;
             }
             String itemId = request.getParameter("id");
             Item item = new Item().getItem(itemId);
+            String auctionId = request.getParameter("auctionId");
 
             if (request.getMethod().equals("POST")) {
                 String price = request.getParameter("bidAmount");
                 double bidAmount = Double.parseDouble(price);
                 try {
-                    Bid bid = new Bid(bidAmount, itemId, new Timestamp(System.currentTimeMillis()), customerID);
+                    bid = new Bid(bidAmount, itemId, new Timestamp(System.currentTimeMillis()), customerID);
+                    bid.setAuctionID(auctionId);
                     if (bid.placeBid()) {
                         message = "Bid Placed Successfully!";
 
@@ -56,12 +60,17 @@
             <% } else { %>
             No Image
             <% }%>
+            <p>Maximum bid: <%= getMaxBid.maxBid(auctionId)%></p>
+
         </div>
 
         <form method="post" action="">
             <div class="col-md-4">
                 <label for="validationCustom01" class="form-label">Bid Amount</label>
-                <input type="number" step="0.01" class="form-control" id="validationCustom01" name="bidAmount" required>
+              <input type="number" step="0.01" class="form-control" id="validationCustom01" name="bidAmount" required 
+       min= <%= getMaxBid.maxBid(auctionId)%>" 
+       title="Enter your bid amount">
+
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -80,7 +89,7 @@
 
 
         <script>
-                 var serverMessage = "<%= message%>";
+            var serverMessage = "<%= message%>";
         </script>
         <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

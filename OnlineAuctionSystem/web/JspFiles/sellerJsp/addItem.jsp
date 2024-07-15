@@ -22,7 +22,7 @@
             if (sellerID == null) {
                 response.sendRedirect("login.jsp");
                 return;
-            }
+            }   
             if ("POST".equalsIgnoreCase(request.getMethod())) {
 
                 String itemName = request.getParameter("itemName");

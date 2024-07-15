@@ -38,6 +38,9 @@
 %>
 <a href="/OnlineAuctionSystem/JspFiles/sellerJsp/addItem.jsp" class="btn btn-secondary">Add listing</a>
 <a href="viewItems.jsp" class="btn btn-secondary">View listing</a>
+<a href="getWinnerList.jsp" class="btn btn-secondary">View listing</a>
+
+
 <h1>Active Auctions</h1>
 
 <div class="container">

@@ -17,7 +17,9 @@ public class Item {
     private String sellerID;
     private String base64Image;
     private String itemId;
+private String auctionIDForBID;
 
+   
     private final Connection connection;
 
     public Item() throws ClassNotFoundException, SQLException {
@@ -108,6 +110,13 @@ public class Item {
         this.itemId = itemId;
     }
 
+     public String getAuctionIDForBID() {
+        return auctionIDForBID;
+    }
+
+    public void setAuctionIDForBID(String auctionID) {
+        this.auctionIDForBID = auctionID;
+    }
     public boolean addItem() throws SQLException {
         String sql = "Insert Into item (itemId, description,itemName,itemImage,itemCondition,categoryID,Seller_sellerID)VALUES (?,?,?,?,?,?,?)";
 

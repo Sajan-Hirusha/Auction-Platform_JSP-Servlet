@@ -22,11 +22,9 @@ public class AuctionStatusChecker extends TimerTask {
 
         try {
 
-
-            // Update auction status
-            String updateStatusSql = "UPDATE auction SET status = CASE " +
+             String updateStatusSql = "UPDATE auction SET status = CASE " +
                     "WHEN startingDateAndTime <= NOW() AND endDateAndTime > NOW() THEN 'active' " +
-                    "WHEN endDateAndTime <= NOW() THEN 'ended' " +
+                    "WHEN endDateAndTime <= NOW() AND status = 'active' THEN 'ended' " +
                     "ELSE status END";
             stmt = connection.prepareStatement(updateStatusSql);
             stmt.executeUpdate();

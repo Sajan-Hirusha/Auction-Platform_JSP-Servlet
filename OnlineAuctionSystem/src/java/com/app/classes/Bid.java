@@ -88,7 +88,6 @@ public class Bid {
 
     public boolean placeBid() throws SQLException, ClassNotFoundException {
         String sql = "Insert Into bid (bidID, bidDateAndTime,bidAmmount,customerID,auctionID)VALUES (?,?,?,?,?)";
-
         String bidID = generateBidId();
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, bidID);
@@ -97,11 +96,15 @@ public class Bid {
         statement.setString(4, this.getCustomerID());
         statement.setString(5, this.getAuctionID());
 
-        return statement.executeUpdate() > 0;
+        String sqlUpdate = "UPDATE auction SET currentBid=? WHERE auctionID =?";
+        PreparedStatement statementUpdate = connection.prepareStatement(sqlUpdate);
+        statementUpdate.setDouble(1, this.getBidAmount());
+        statementUpdate.setString(2, this.getAuctionID());
+        return statement.executeUpdate() > 0  &&  statementUpdate.executeUpdate()>0;
     }
 
     public String generateBidId() throws SQLException, ClassNotFoundException {
-        this.setAuctionID(new Auction().getAuctionId(this.itemId));
+       
         int auctionIdLength= this.getAuctionID().length();
         String sql = "SELECT bidID FROM bid WHERE auctionId = ? ORDER BY CAST(SUBSTRING(bidID,?) AS UNSIGNED) DESC LIMIT 1";
 
@@ -123,6 +126,19 @@ public class Bid {
             return nextBidID;
         }
 
+    }
+    
+    public double maxBid(String auctionID) throws SQLException{
+        String sql = "SELECT currentBid FROM auction WHERE auctionId = ? ";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, auctionID);
+          ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                double bidAmount=resultSet.getDouble("currentBid");
+                System.out.println(bidAmount);
+                return bidAmount;
+            }
+           return 0.0;
     }
 
 }

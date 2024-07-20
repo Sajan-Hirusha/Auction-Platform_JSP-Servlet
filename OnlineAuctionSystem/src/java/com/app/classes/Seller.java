@@ -146,6 +146,7 @@ public class Seller {
 
         if (resultSet.next()) {
             String lastSellerID = resultSet.getString("sellerID");
+            
             String spliData[] = lastSellerID.split("/");
             String lastIntegerAsString = spliData[1];
             int lastIntegerAsInt = Integer.parseInt(lastIntegerAsString);

@@ -68,7 +68,7 @@
             <div class="col-md-4">
                 <label for="validationCustom01" class="form-label">Bid Amount</label>
               <input type="number" step="0.01" class="form-control" id="validationCustom01" name="bidAmount" required 
-       min= <%= getMaxBid.maxBid(auctionId)%>" 
+       min= "<%= getMaxBid.maxBid(auctionId)%>" 
        title="Enter your bid amount">
 
                 <div class="valid-feedback">

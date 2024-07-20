@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Dilki
-  Date: 6/5/2024
-  Time: 2:11 PM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,6 +8,6 @@
 </head>
 <body>
 <a href="../sellerJsp/SellerRegistrationForm.jsp" class="btn btn-secondary">Register</a>
-<a  href="../LoginJsp/login.jsp" class="btn btn-secondary">Logging</a>
+<a  href="../LoginJsp/login.jsp?id=1" class="btn btn-secondary">Logging</a>
 </body>
 </html>

@@ -11,7 +11,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="../../CSS/Login.css">
-        <link rel="stylesheet" href="../../CSS/SellerRegistrationForm.css">
+        <!--<link rel="stylesheet" href="../../CSS/SellerRegistrationForm.css">-->
+        <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
 
         <style>
             #imgSection img{
@@ -25,13 +26,17 @@
     <body>
         <%
             String message = "";
+            String id = request.getParameter("id");
+            if ("0".equals(id)) {
+                message = "You Successfully Registered!";
+            }
             String email = request.getParameter("loggingEmail");
             String password = request.getParameter("loggingPassword");
             String position = request.getParameter("position");
             if (email != null && password != null && position != null) {
                 try {
                     if ("admin".equals(position)) {
-                       
+
                     } else if ("seller".equals(position)) {
                         Seller seller = new Seller(email, password);
                         if (seller.sellerLogin()) {
@@ -43,7 +48,7 @@
                             message = "Not Matched Login Details!";
                         }
                     } else if ("customer".equals(position)) {
-                       Customer customer = new Customer(email, password);
+                        Customer customer = new Customer(email, password);
                         if (customer.customerLogin()) {
                             System.out.println(customer);
                             session.setAttribute("customerID", customer.getCustomerID());
@@ -65,7 +70,26 @@
 
         <div id="alertContainer"></div>
 
-        <div id="row1" class="row justify-content-center " >
+        <div id="navbar-container" >
+            <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
+            <div class="nav-menu">
+                <a href="#about" class="nav-menu-item">About Us</a>
+                <a href="#services" class="nav-menu-item">Our Services</a>
+                <a href="#contact" class="nav-menu-item">Contact Us</a>
+            </div>
+
+            <div class="dropdown mx-4 px-4" >
+                <button class="btn btn-primary dropdown-toggle nav-button mx-4 w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                   OR Sign Up
+                </button>
+                <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton" >
+                    <li><a class="dropdown-item" href="../customerJsp/customerRegistrationForm.jsp" >Customer</a></li>
+                    <li><a class="dropdown-item" href="../sellerJsp/SellerRegistrationForm.jsp">Seller</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="row1" class="row justify-content-center my-5" >
             <div id="imgSection" class=" col-sm-4 col-md-4 col-lg-4 text-center">
                 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -145,12 +169,17 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                            <a href="SellerRegistrationForm.jsp" class="link-secondary text-decoration-none">Create new account</a>
+                            <a href="../customerJsp/customerRegistrationForm.jsp" class="link-secondary text-decoration-none">Create new account</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <footer class="footer">
+            Copyright &#169; <span>AuctionHub</span>. All rights reserved.
+        </footer>
+
 
         <script>
             var serverMessage = "<%= message%>";

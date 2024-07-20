@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-    <h2>Item and Winner Details</h2>
+    <h2>Waiting For customer approval</h2>
     <table>
         <thead>
             <tr>

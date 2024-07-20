@@ -278,6 +278,73 @@ public class Auction {
         
         return itemsWithWinners;
     }
+    
+    
+    
+    
+    public List<ItemWinnerDetails> itemToBeShiped(String sellerID) {
+        
+        List<ItemWinnerDetails> itemsWithWinners = new ArrayList<>();
+
+       String query = "SELECT i.itemId, i.description, i.itemName, i.itemImage, i.itemCondition, "
+                + "c.customerID, c.fullName, c.phoneNo, c.address, c.email, "
+                + "b.bidID, b.bidDateAndTime, b.bidAmount, a.auctionID ,a.sellerID " +
+                "FROM auction a " +
+                "JOIN bid b ON a.auctionID = b.auctionID " +
+                "JOIN item i ON a.itemId = i.itemId " +
+                "JOIN customer c ON b.customerID = c.customerID " +
+                "AND a.currentBid = b.bidAmount " +
+                "AND a.status = 'paid' " +
+                "AND a.sellerID = ? ";
+
+
+        try (
+            PreparedStatement stmt = connection.prepareStatement(query);
+             
+                
+        ) {
+                stmt.setString(1, sellerID);
+            ResultSet rs = stmt.executeQuery();
+           
+            while (rs.next()) {
+                String itemId = rs.getString("itemId");
+                String auctionID = rs.getString("auctionID");
+                String sellerId = rs.getString("sellerID");
+                String description = rs.getString("description");
+                String itemName = rs.getString("itemName");
+                byte[] itemImage = rs.getBytes("itemImage");
+                String itemCondition = rs.getString("itemCondition");
+                String customerId = rs.getString("customerID");
+                String fullName = rs.getString("fullName");
+                String phoneNo = rs.getString("phoneNo");
+                String address = rs.getString("address");
+                String email = rs.getString("email");
+                String bidID = rs.getString("bidID");
+                String bidDateAndTime = rs.getString("bidDateAndTime"); 
+                double bidAmount = rs.getDouble("bidAmount");
+         
+                  
+               String base64Image = Base64.getEncoder().encodeToString(itemImage);
+                ItemWinnerDetails itemWinner = new ItemWinnerDetails(itemId, description, itemName, base64Image, itemCondition,
+                                                                     customerId, fullName, phoneNo, address, email,
+                                                                     bidID, bidDateAndTime, bidAmount,auctionID,sellerId);
+               
+                itemsWithWinners.add(itemWinner);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return itemsWithWinners;
+    }
+    
+    public boolean itemShiped(String auctionID) throws SQLException{
+        String query="UPDATE auction SET status='shiped' WHERE auctionID=?";
+           PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, auctionID);
+            
+             return statement.executeUpdate() > 0;
+    }
 //    public static void main(String[] args) throws ClassNotFoundException, SQLException {
 //        Auction auction=new Auction();
 //        auction.getEndItemsAndWinners();

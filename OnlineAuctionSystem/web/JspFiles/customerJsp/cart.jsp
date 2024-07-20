@@ -9,6 +9,25 @@
         response.sendRedirect("login.jsp");
         return;
     }
+    
+    if ("POST".equalsIgnoreCase(request.getMethod())) {
+        String auctionID = request.getParameter("auctionID");
+
+        try {
+            Cart cart = new Cart();
+            boolean buyNow = cart.buyNow(auctionID);
+
+            if (buyNow) {
+                message = "Item Shiped Soon";
+            } else {
+                message = "Failed to buy.";
+            }
+        } catch (Exception e) {
+            message = "Error: " + e.getMessage();
+        }
+    }
+    
+    
     List<CartItemDetails> cartItems = null;
     try {
         Cart cart = new Cart();
@@ -16,7 +35,10 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
+       message = message == null ? "" : message;
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,8 +57,11 @@
             text-align: left;
         }
     </style>
+       <link rel="stylesheet" href="../../CSS/alertBox.css">
 </head>
 <body>
+    
+     <div id="alertContainer1"></div>
     <h2>Cart Items for Seller</h2>
     <table>
         <thead>
@@ -67,8 +92,13 @@
                             <% } %>
                         </td>
                         <td><%= item.getItemCondition() %></td>
-                       
                         <td><%= item.getAuctionID() %></td>
+                       <td>
+                    <form method="post">
+                        <input type="hidden" name="auctionID" value="<%= item.getAuctionID() %>">
+                        <button type="submit" class="btn btn-success" name="buyNow">Buy Now</button>
+                    </form>
+                </td>
                     </tr>
                 <% } %>
             <% } else { %>
@@ -78,6 +108,11 @@
             <% } %>
         </tbody>
     </table>
+        
+        <script>
+            var serverMessage = "<%= message%>";
+        </script>
+      <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
 </body>
 </html>
 

@@ -1,7 +1,12 @@
 
 
-body{
-    background-image: radial-gradient( circle farthest-corner at 48.4% 47.5%,  rgba(122,183,255,1) 0%, rgba(21,83,161,1) 90% );
+body {
+   background: linear-gradient(180deg, 
+  rgba(3, 47, 100, 0.68) 0%, 
+  rgba(12, 61, 118, 0.32) 29%, 
+  rgba(12, 61, 118, 0.32) 70%, 
+  rgba(3, 47, 100, 0.68) 100%);
+
 }
 
 #row1{
@@ -10,7 +15,7 @@ body{
     background-color:transparent;
     transition: opacity 0.5s ease;
     z-index: 1000;
-    border: red solid 1px;
+    
 }
 /*#row2 ,#row2SecondForm{
     height: 100% ;

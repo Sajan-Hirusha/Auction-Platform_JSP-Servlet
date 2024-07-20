@@ -42,7 +42,7 @@ private String description;
         this.bidDateAndTime = bidDateAndTime;
         this.bidAmount = bidAmount;
         
-        System.out.println( this.bidAmount);
+        System.out.println( customerID);
     }
     
     private String itemId;

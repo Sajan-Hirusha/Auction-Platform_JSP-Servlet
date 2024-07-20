@@ -87,7 +87,7 @@ public class Bid {
     }
 
     public boolean placeBid() throws SQLException, ClassNotFoundException {
-        String sql = "Insert Into bid (bidID, bidDateAndTime,bidAmmount,customerID,auctionID)VALUES (?,?,?,?,?)";
+        String sql = "Insert Into bid (bidID, bidDateAndTime,bidAmount,customerID,auctionID)VALUES (?,?,?,?,?)";
         String bidID = generateBidId();
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, bidID);

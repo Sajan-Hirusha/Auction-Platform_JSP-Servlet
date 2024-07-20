@@ -9,7 +9,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/SellerRegistrationForm.css">
-        
+        <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
          <style>
             #imgSection img{
                 height: 100%;
@@ -33,7 +33,7 @@
                     if (password.equals(confirmPassword)) {
                         Seller seller = new Seller(fullName, email, businessName, Integer.parseInt(phoneNumber), password);
                         if (seller.saveSeller().equals("userAdded")) {
-                            response.sendRedirect("/OnlineAuctionSystem/JspFiles/sellerJsp/sellerDashboard.jsp");
+                            response.sendRedirect("../LoginJsp/login.jsp?id=0");
                         } else if(seller.saveSeller().equals("emailExists")){
                              message = "Email Already Exists!";
                         }
@@ -52,7 +52,24 @@
 %>
         <div id="alertContainer"></div>
         
-        <div id="container">
+         <div id="navbar-container" >
+            <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
+            <div class="nav-menu">
+                <a href="#about" class="nav-menu-item">About Us</a>
+                <a href="#services" class="nav-menu-item">Our Services</a>
+                <a href="#contact" class="nav-menu-item">Contact Us</a>
+            </div>
+
+            <div class="dropdown mx-4 px-4" >
+                <button class="btn btn-primary nav-button mx-4 w-100 z-index-1" type="button" id="dropdownMenuButton" >
+                    <a href="../LoginJsp/login.jsp?id=1">OR Sign In</a>
+                </button>
+              
+            </div>
+        </div>
+        
+        
+        <div id="container" class="my-5">
             <div id="row1" class="row justify-content-center">
                 <div id="imgSection" class="col-sm-4 col-md-4 col-lg-4 text-center">
                     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
@@ -149,7 +166,9 @@
             </div>
         </div>
 
-
+ <footer class="footer">
+    Copyright &#169; <span>AuctionHub</span>. All rights reserved.
+  </footer>
 
         <script>
             var serverMessage = "<%= message%>";

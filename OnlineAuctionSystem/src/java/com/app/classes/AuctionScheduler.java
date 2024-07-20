@@ -14,7 +14,7 @@ public class AuctionScheduler implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         timer = new Timer(true);
         try {
-            timer.scheduleAtFixedRate(new AuctionStatusChecker(), 0, 6000); // Check every minute
+            timer.scheduleAtFixedRate(new AuctionStatusChecker(), 0, 2000); 
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {

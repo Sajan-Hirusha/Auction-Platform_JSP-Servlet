@@ -37,13 +37,13 @@ public class Cart {
         return statement.executeUpdate() > 0 && updateStatement.executeUpdate() > 0;
 
     }
-    
+
     public List<CartItemDetails> getCartItemsForSeller(String customerID) throws SQLException {
-        String query = "SELECT c.cartID, c.customerID, c.itemId, c.sellerID, c.auctionID, " +
-                       "i.description, i.itemName, i.itemImage, i.itemCondition, i.categoryID " +
-                       "FROM cart c " +
-                       "JOIN item i ON c.itemId = i.itemId " +
-                       "WHERE c.customerID  = ?";
+        String query = "SELECT c.cartID, c.customerID, c.itemId, c.sellerID, c.auctionID, "
+                + "i.description, i.itemName, i.itemImage, i.itemCondition, i.categoryID "
+                + "FROM cart c "
+                + "JOIN item i ON c.itemId = i.itemId "
+                + "WHERE c.customerID  = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, customerID);
         ResultSet resultSet = statement.executeQuery();
@@ -51,21 +51,31 @@ public class Cart {
         List<CartItemDetails> cartItems = new ArrayList<>();
         while (resultSet.next()) {
             byte[] itemImage = resultSet.getBytes("itemImage");
-             String base64Image = Base64.getEncoder().encodeToString(itemImage);
+            String base64Image = Base64.getEncoder().encodeToString(itemImage);
             CartItemDetails item = new CartItemDetails(
-                resultSet.getInt("cartID"),
-                resultSet.getString("customerID"),
-                resultSet.getString("itemId"),
-                resultSet.getString("sellerID"),
-                resultSet.getString("auctionID"),
-                resultSet.getString("description"),
-                resultSet.getString("itemName"),
-                base64Image,
-                resultSet.getString("itemCondition")
-              
+                    resultSet.getInt("cartID"),
+                    resultSet.getString("customerID"),
+                    resultSet.getString("itemId"),
+                    resultSet.getString("sellerID"),
+                    resultSet.getString("auctionID"),
+                    resultSet.getString("description"),
+                    resultSet.getString("itemName"),
+                    base64Image,
+                    resultSet.getString("itemCondition")
             );
             cartItems.add(item);
         }
         return cartItems;
+    }
+
+    public boolean buyNow(String auctionID) throws SQLException {
+        String updateQuery = "UPDATE auction SET status = 'paid' WHERE auctionID=?";
+        PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+        updateStatement.setString(1, auctionID);
+
+        String deleteQuery = "DELETE FROM cart WHERE auctionID=?";
+        PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+        deleteStatement.setString(1, auctionID);
+        return deleteStatement.executeUpdate() > 0 && updateStatement.executeUpdate() > 0;
     }
 }

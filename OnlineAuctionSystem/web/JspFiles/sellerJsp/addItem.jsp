@@ -21,6 +21,7 @@
 
     </head>
     <body>
+        
         <%
             String message = "";
             String sellerID = (String) session.getAttribute("sellerID");

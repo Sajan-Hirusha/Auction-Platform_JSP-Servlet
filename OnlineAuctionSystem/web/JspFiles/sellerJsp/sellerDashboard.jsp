@@ -17,6 +17,19 @@
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
         <link rel="stylesheet" href="../../CSS/sellerDashboard.css">
+        <style>
+            #countdown {
+                background-color: #f8f9fa;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+            .countdown-timer {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body>
         <%
@@ -38,8 +51,8 @@
                 e.printStackTrace();
             }
         %>
-        
-        <div id="navbar-container" >
+
+        <div id="navbar-container">
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
                 <a href="../../home.html" class="nav-menu-item">Home</a>
@@ -47,73 +60,110 @@
                 <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
                 <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
-
-            <div >
+            <div>
                 <a id="logout" href="../LoginJsp/logout.jsp">Logout</a>
             </div>
-
         </div>
         <div id="main">
-        <div class="container">
-            <div class="nav-buttons text-center">
-                <a href="/OnlineAuctionSystem/JspFiles/sellerJsp/addItem.jsp" class="btn btn-secondary">Add listing</a>
-                <a href="viewItems.jsp" class="btn btn-secondary">View listing</a>
-                <a href="getWinnerList.jsp" class="btn btn-secondary">View End Items</a>
-                <a href="toBeShiped.jsp" class="btn btn-secondary">Items To Be Shipped</a>
-            </div>
-
-            <h1>Active Auctions</h1>
-
-            <div class="row">
-                <div class="col-12">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Item ID</th>
-                                <th>Item Name</th>
-                                <th>Item Description</th>
-                                <th>Item Condition</th>
-                                <th>Item Category</th>
-                                <th>Item Image</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                if (!items.isEmpty()) {
-                                    for (Item item : items) {
-                            %>
-                            <tr>
-                                <td><%= item.getItemId()%></td>
-                                <td><%= item.getItemName()%></td>
-                                <td><%= item.getDescription()%></td>
-                                <td><%= item.getCondition()%></td>
-                                <td><%= item.getCategory()%></td>
-                                <td><% if (!item.getBase64Image().isEmpty()) {%>
-                                    <img src="data:image/jpeg;base64,<%= item.getBase64Image()%>">
-                                    <% } else { %> No Image <% } %>
-                                </td>
-                            </tr>
-                            <%
-                                }
-                            } else {
-                            %>
-                            <tr>
-                                <td colspan="6" class="no-items">No items found.</td>
-                            </tr>
-                            <%
-                                }
-                            %>
-                        </tbody>
-                    </table>
+            <div class="container">
+                <div class="nav-buttons text-center">
+                    <a href="/OnlineAuctionSystem/JspFiles/sellerJsp/addItem.jsp" class="btn btn-secondary">Add listing</a>
+                    <a href="viewItems.jsp" class="btn btn-secondary">View listing</a>
+                    <a href="getWinnerList.jsp" class="btn btn-secondary">View End Items</a>
+                    <a href="toBeShipped.jsp" class="btn btn-secondary">Items To Be Shipped</a>
                 </div>
+
+                <h1>Active Auctions</h1>
+
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Item Name</th>
+                                    <th>Item Description</th>
+                                    <th>Item Condition</th>
+                                    <th>Item Category</th>
+                                    <th>Item Image</th>
+                                    <th>Time Left</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                    if (!items.isEmpty()) {
+                                        for (Item item : items) {
+                                %>
+                                <tr>
+                                    <td><%= item.getItemId() %></td>
+                                    <td><%= item.getItemName() %></td>
+                                    <td><%= item.getDescription() %></td>
+                                    <td><%= item.getCondition() %></td>
+                                    <td><%= item.getCategory() %></td>
+                                    <td>
+                                        <% if (!item.getBase64Image().isEmpty()) { %>
+                                            <img src="data:image/jpeg;base64,<%= item.getBase64Image() %>" style="width: 100px; height: auto;">
+                                        <% } else { %> 
+                                            No Image 
+                                        <% } %>
+                                    </td>
+                                    <td id="countdown-<%= item.getItemId() %>" class="countdown-timer"></td>
+                                </tr>
+                                <%
+                                        }
+                                    } else {
+                                %>
+                                <tr>
+                                    <td colspan="7" class="no-items">No items found.</td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
             </div>
         </div>
-</div>
         <footer class="footer">
             Copyright &#169; <span>AuctionHub</span>. All rights reserved.
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                <% 
+                for (Item item : items) {
+                    String endDate = item.getEndDateAndTime();
+                %>
+                (function() {
+                    var endDate = new Date("<%= endDate %>").getTime();
+                    var timerElement = document.getElementById('countdown-<%= item.getItemId() %>');
+                    
+                    var countdown = setInterval(function() {
+                        var now = new Date().getTime();
+                        var distance = endDate - now;
+
+                        if (distance < 0) {
+                            clearInterval(countdown);
+                            timerElement.innerHTML = "Auction Ended";
+                            return;
+                        }
+
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                    }, 1000);
+                })();
+                <%
+                }
+                %>
+            });
+        </script>
     </body>
 </html>

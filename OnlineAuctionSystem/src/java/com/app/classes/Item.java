@@ -18,6 +18,9 @@ public class Item {
     private String base64Image;
     private String itemId;
 private String auctionIDForBID;
+private String startingDateAndTime;
+
+private String endDateAndTime;
 
    
     private final Connection connection;
@@ -116,6 +119,23 @@ private String auctionIDForBID;
 
     public void setAuctionIDForBID(String auctionID) {
         this.auctionIDForBID = auctionID;
+    }
+    
+    
+    public String getStartingDateAndTime() {
+        return startingDateAndTime;
+    }
+
+    public void setStartingDateAndTime(String startingDateAndTime) {
+        this.startingDateAndTime = startingDateAndTime;
+    }
+
+    public String getEndDateAndTime() {
+        return endDateAndTime;
+    }
+
+    public void setEndDateAndTime(String endDateAndTime) {
+        this.endDateAndTime = endDateAndTime;
     }
     public boolean addItem() throws SQLException {
         String sql = "Insert Into item (itemId, description,itemName,itemImage,itemCondition,categoryID,Seller_sellerID)VALUES (?,?,?,?,?,?,?)";

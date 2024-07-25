@@ -1,14 +1,5 @@
 
 
-body {
-   background: linear-gradient(180deg, 
-  rgba(3, 47, 100, 0.68) 0%, 
-  rgba(12, 61, 118, 0.32) 29%, 
-  rgba(12, 61, 118, 0.32) 70%, 
-  rgba(3, 47, 100, 0.68) 100%);
-
-}
-
 #row1{
     height: 560px;
     overflow: hidden;
@@ -32,8 +23,20 @@ body {
 #loginSection{
     border-radius: 0 16px 16px 0;
     overflow: hidden;
-    background-color: white;
+    background-color: #e8e9ea;
     height: auto;
+}
+
+#loginSection #signInLogo{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.backToRegistration{
+    position: relative;
+    left: 40px;
 }
 #signIn{
     font-weight: 700;
@@ -67,32 +70,6 @@ body {
      font-size: 13px;
     color: grey;
 }
-
-#alertContainer {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    max-width: 300px;
-    background-color: darkred;
-    border-color: darkred;
-    color: white;
-    padding: 10px 20px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    display: none;
-    animation: slideInRight 0.5s ease-out forwards;
-}
-
-@keyframes slideInRight {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(0);
-    }
-}
-
 
 @media (max-width: 961px) {
     #hidePopupButton{

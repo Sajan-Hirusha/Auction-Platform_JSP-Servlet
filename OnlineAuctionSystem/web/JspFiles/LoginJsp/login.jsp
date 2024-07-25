@@ -11,7 +11,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="../../CSS/Login.css">
-        <!--<link rel="stylesheet" href="../../CSS/SellerRegistrationForm.css">-->
+        <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+        <link rel="stylesheet" href="../../CSS/alertSuccess.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
 
         <style>
@@ -26,9 +27,10 @@
     <body>
         <%
             String message = "";
+            String message1 = "";
             String id = request.getParameter("id");
             if ("0".equals(id)) {
-                message = "You Successfully Registered!";
+                message1 = "You Successfully Registered!";
             }
             String email = request.getParameter("loggingEmail");
             String password = request.getParameter("loggingPassword");
@@ -43,7 +45,7 @@
                             System.out.println(seller.getSellerID());
                             session.setAttribute("sellerID", seller.getSellerID());
                             response.sendRedirect(request.getContextPath() + "/JspFiles/sellerJsp/sellerDashboard.jsp");
-                            return; // Ensure the redirect happens
+                            return;
                         } else {
                             message = "Not Matched Login Details!";
                         }
@@ -65,22 +67,26 @@
                 }
             }
             message = message == null ? "" : message;
+            message1 = message1 == null ? "" : message1;
+
         %>
 
 
         <div id="alertContainer"></div>
+        <div id="alertContainer1"></div>
 
         <div id="navbar-container" >
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="#about" class="nav-menu-item">About Us</a>
-                <a href="#services" class="nav-menu-item">Our Services</a>
-                <a href="#contact" class="nav-menu-item">Contact Us</a>
+                <a href="../../home.html" class="nav-menu-item">Home</a>
+                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div class="dropdown mx-4 px-4" >
                 <button class="btn btn-primary dropdown-toggle nav-button mx-4 w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                   OR Sign Up
+                    OR Sign Up
                 </button>
                 <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton" >
                     <li><a class="dropdown-item" href="../customerJsp/customerRegistrationForm.jsp" >Customer</a></li>
@@ -108,12 +114,13 @@
             <div id="loginSection" class="col-sm-5 col-md-5 col-lg-5 text-center">
                 <div class="row">
                     <div class="col-12">
-                        <div class="mb-3">
-                            <div class="text-center mb-4">
-                                <a href="#!">
+                        <div class="mb-2">
+                            <div class="text-center mb-2">
+                                <a id="signInLogo" href="#!">
 
-                                    <img class="mt-4" src="../images/" alt="BootstrapBrain Logo"
-                                         width="175" height="25">
+                                    <img class="mt-2" src="../images/logo.png" alt="logo"
+                                         width="50" height="50">
+                                    AuctionPulse 
                                 </a>
                             </div>
                             <h3 id="signIn" class="text-start">SIGN IN</h3>
@@ -168,9 +175,12 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                            <a href="../customerJsp/customerRegistrationForm.jsp" class="link-secondary text-decoration-none">Create new account</a>
+                        <div class="d-flex gap-0  flex-column flex-md-row justify-content-md-center">
+                            Create new account? 
+                            <a href="../sellerJsp/SellerRegistrationForm.jsp" class="link-secondary text-decoration-none backToRegistration mx-2">Seller /</a>
+                            <a href="../customerJsp/customerRegistrationForm.jsp" class="link-secondary text-decoration-none backToRegistration mx-2">Customer</a>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -183,11 +193,19 @@
 
         <script>
             var serverMessage = "<%= message%>";
-        </script>
+            var serverMessage1 = "<%= message1%>";
 
-        <script src="../../JS/main.js"></script>
+            if (serverMessage1 !== "" && serverMessage1 !== null) {
+                document.write('<script src="../../JS/formvalidationWithSuccessAlert.js"><\/script>');
+            } else if (serverMessage !== "" && serverMessage !== null) {
+                document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>');
+            } else {
+                document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>'); // Default behavior
+            }
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
     </body>
 </html>

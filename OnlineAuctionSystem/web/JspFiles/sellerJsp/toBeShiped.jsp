@@ -42,7 +42,7 @@
                 text-align: left;
             }
         </style>
-         <link rel="stylesheet" href="../../CSS/alertBox.css">
+         <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
     </head>
     <body>
         <div id="alertContainer1"></div>

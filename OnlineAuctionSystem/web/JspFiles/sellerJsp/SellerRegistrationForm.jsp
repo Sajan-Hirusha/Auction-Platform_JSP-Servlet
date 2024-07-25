@@ -8,9 +8,10 @@
         <title>Seller Registration page</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="../../CSS/SellerRegistrationForm.css">
+        <link rel="stylesheet" href="../../CSS/RegistrationForm.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
-         <style>
+         <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+        <style>
             #imgSection img{
                 height: 100%;
                 width: 100%;
@@ -34,10 +35,9 @@
                         Seller seller = new Seller(fullName, email, businessName, Integer.parseInt(phoneNumber), password);
                         if (seller.saveSeller().equals("userAdded")) {
                             response.sendRedirect("../LoginJsp/login.jsp?id=0");
-                        } else if(seller.saveSeller().equals("emailExists")){
-                             message = "Email Already Exists!";
-                        }
-                        else {
+                        } else if (seller.saveSeller().equals("emailExists")) {
+                            message = "Email Already Exists!";
+                        } else {
                             message = "Incorrect data";
                         }
                     } else {
@@ -49,26 +49,27 @@
                 }
             }
             message = message == null ? "" : message;
-%>
+        %>
         <div id="alertContainer"></div>
-        
-         <div id="navbar-container" >
+
+        <div id="navbar-container" >
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="#about" class="nav-menu-item">About Us</a>
-                <a href="#services" class="nav-menu-item">Our Services</a>
-                <a href="#contact" class="nav-menu-item">Contact Us</a>
+                <a href="../../home.html" class="nav-menu-item">Home</a>
+                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div class="dropdown mx-4 px-4" >
                 <button class="btn btn-primary nav-button mx-4 w-100 z-index-1" type="button" id="dropdownMenuButton" >
                     <a href="../LoginJsp/login.jsp?id=1">OR Sign In</a>
                 </button>
-              
+
             </div>
         </div>
-        
-        
+
+
         <div id="container" class="my-5">
             <div id="row1" class="row justify-content-center">
                 <div id="imgSection" class="col-sm-4 col-md-4 col-lg-4 text-center">
@@ -91,91 +92,95 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <div class="text-center mb-1">
-                                    <img class="mt-4" src="../images/movie-rental-system-logo.png" alt="BootstrapBrain Logo"
-                                         width="175" height="25">
+                                    <a id="signInLogo" href="#!">
+
+                                        <img class="mt-2" src="../images/logo.png" alt="logo"
+                                             width="50" height="50">
+                                        AuctionPulse 
+                                    </a>
                                 </div>
-                                <h3 id="signIn" class="text-start">SIGN Up</h3>
+                                <h5 id="signIn" class="text-start">SELLER SIGN UP</h5>
                             </div>
                         </div>
                     </div>
                     <form class=" needs-validation" method="POST" action="SellerRegistrationForm.jsp" novalidate>
-                        
-                            <div id="row2" class="row gy-3 overflow-hidden">
-                                <div class="col-6">
-                                    <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" name="fullName" id="fullName" required>
-                                        <label for="fullName" class="form-label">Full Name</label>
-                                       
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-floating mb-2">
-                                        <input type="email" class="form-control" name="email" id="email"  required>
-                                        <label for="email" class="form-label">Email</label>
-                                      
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" name="businessName" id="businessName"  required>
-                                        <label for="businessName" class="form-label">Business Name</label>
-                                        
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-floating mb-2">
-                                        <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"  required>
-                                        <label for="phoneNumber" class="form-label">Phone Number</label>
-                                       
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-floating mb-2">
-                                        <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" required>
-                                        <label for="password" class="form-label">Password</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-floating mb-2">
-                                        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" value="" placeholder="Password" required>
-                                        <label for="confirmPassword"  class="form-label"> Confirm Password</label>
-                                    </div>
-                                </div>
 
-                                <div class="col-12">
-                                    <div class="d-grid mt-2 mb-2">
-                                        <button class="btn btn-dark btn-lg" type="submit">Sign Up now</button>
-                                    </div>
+                        <div id="row2" class="row gy-3 overflow-hidden">
+                            <div class="col-6">
+                                <div class="form-floating mb-2">
+                                    <input type="text" class="form-control" name="fullName" id="fullName" required>
+                                    <label for="fullName" class="form-label">Full Name</label>
+
                                 </div>
                             </div>
-                        </form>
-                        <div class="row">
-                            <div class="col-12">
-                                <hr class="w-75 mx-auto">
-                                <p class="text-center">Or </p>
+                            <div class="col-6">
+                                <div class="form-floating mb-2">
+                                    <input type="email" class="form-control" name="email" id="email"  required>
+                                    <label for="email" class="form-label">Email</label>
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-floating mb-2">
+                                    <input type="text" class="form-control" name="businessName" id="businessName"  required>
+                                    <label for="businessName" class="form-label">Business Name</label>
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-2">
+                                    <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"  required>
+                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-2">
+                                    <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" required>
+                                    <label for="password" class="form-label">Password</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-2">
+                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" value="" placeholder="Password" required>
+                                    <label for="confirmPassword"  class="form-label"> Confirm Password</label>
+                                </div>
+                            </div>
+
                             <div class="col-12">
-                                <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                                    <a href="../LoginJsp/login.jsp" class="link-secondary text-decoration-none">Login With Existing Account</a>
+                                <div class="d-grid mt-2 mb-2">
+                                    <button class="btn btn-dark btn-lg" type="submit">Sign Up now</button>
                                 </div>
                             </div>
                         </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-12">
+                            <hr class="w-75 mx-auto">
+                            <p class="text-center">Or </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
+                                <a href="../LoginJsp/login.jsp" class="link-secondary text-decoration-none">Login With Existing Account</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
- <footer class="footer">
-    Copyright &#169; <span>AuctionHub</span>. All rights reserved.
-  </footer>
+        <footer class="footer">
+            Copyright &#169; <span>AuctionHub</span>. All rights reserved.
+        </footer>
 
         <script>
             var serverMessage = "<%= message%>";
         </script>
 
 
-        <script src="../../JS/formValidation.js"></script>
+        <script src="../../JS/formValidationWithFailure.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>

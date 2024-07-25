@@ -1,6 +1,6 @@
  document.addEventListener('DOMContentLoaded', function() {
-                if (typeof serverMessage !== 'undefined' && serverMessage !== "") {
-                    showAlert(serverMessage);
+                if (typeof serverMessage1 !== 'undefined' && serverMessage1 !== "") {
+                    showAlert(serverMessage1);
                 }
 
                 const forms = document.querySelectorAll('.needs-validation');

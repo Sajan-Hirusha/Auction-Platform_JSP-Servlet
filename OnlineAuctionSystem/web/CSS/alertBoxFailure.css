@@ -1,11 +1,11 @@
-#alertContainer1 {
+#alertContainer {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 1000;
     max-width: 300px;
-    background-color: green;
-    border-color: green;
+    background-color: darkred;
+    border-color: darkred;
     color: white;
     padding: 10px 20px;
     border: 1px solid transparent;

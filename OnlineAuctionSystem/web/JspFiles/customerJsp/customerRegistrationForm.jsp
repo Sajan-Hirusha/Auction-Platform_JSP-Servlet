@@ -8,7 +8,7 @@
         <title>Seller Registration page</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="../../CSS/SellerRegistrationForm.css">
+        <link rel="stylesheet" href="../../CSS/RegistrationForm.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
         <style>
             #imgSection img{
@@ -59,9 +59,10 @@
         <div id="navbar-container" >
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="#about" class="nav-menu-item">About Us</a>
-                <a href="#services" class="nav-menu-item">Our Services</a>
-                <a href="#contact" class="nav-menu-item">Contact Us</a>
+               <a href="../../home.html" class="nav-menu-item">Home</a>
+                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div class="dropdown mx-4 px-4" >
@@ -95,10 +96,14 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <div class="text-center mb-1">
-                                    <img class="mt-4" src="../images/movie-rental-system-logo.png" alt="BootstrapBrain Logo"
-                                         width="175" height="25">
+                                    <a id="signInLogo" href="#!">
+
+                                        <img class="mt-2" src="../images/logo.png" alt="logo"
+                                             width="50" height="50">
+                                        AuctionPulse 
+                                    </a>
                                 </div>
-                                <h3 id="signIn" class="text-start">SIGN Up</h3>
+                                <h5 id="signIn" class="text-start">CUSTOMER SIGN UP</h5>
                             </div>
                         </div>
                     </div>

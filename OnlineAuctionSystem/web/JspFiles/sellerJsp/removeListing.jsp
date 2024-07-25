@@ -36,49 +36,80 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>View Item Details</title>
+        <title>Delete items</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/alertSuccess.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="../../JS/formValidation.js"></script>
+        <link rel="stylesheet" href="../../CSS/RemoveListing.css">
+        <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+
     </head>
     <body>
 
-        <div id="alertContainer1"></div>
-
-        <div class="container mt-5">
-            <h2>Item Details</h2>
-            <div>
-                <p><strong>ID:</strong> <%= item.getItemId()%></p>
-                <p><strong>Name:</strong> <%= item.getItemName()%></p>
-                <p><strong>Description:</strong> <%= item.getDescription()%></p>
-                <p><strong>Category:</strong> <%= item.getCategory()%></p>
-                <p><strong>Condition:</strong> <%= item.getCondition()%></p>
-                <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) {%>
-                <img style="height: 100px; width: 100px;" src="data:image/jpeg;base64, <%= item.getBase64Image()%> ">
-                <% } else { %>
-                <p>No Image</p>
-                <% }%>
+        <div id="navbar-container" >
+            <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
+            <div class="nav-menu">
+                <a href="../../home.html" class="nav-menu-item">Home</a>
+                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
-            <div class="mt-3">
+            <div >
+                <a id="logout" href="../LoginJsp/logout.jsp">Logout</a>
+            </div>
+
+        </div>
+        <div id="main">
+            <div class="col-12">
+                <a href="viewItems.jsp" class="btn btn-primary backButton">Back to Delete Auction</a>
+            </div>
+            <div class="container mt-3 col-6" >
                 <form action="removeListing.jsp" method="post">
-                    <input type="hidden" name="deleteId" value="<%= item.getItemId()%>">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <h1 class="mb-4">Delete form</h1>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) {%>
+                            <img class="mx-4" src="data:image/jpeg;base64, <%= item.getBase64Image()%> ">
+                            <% } else { %>
+                            <p>No Image</p>
+                            <% }%>
+                        </div>
+                        <div class="col-md-8 row">
+                            <div class="col-md-6">
+                                <p><b>Name:</b> <%= item.getItemName()%></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><b>ID:</b> <%= item.getItemId()%></p>
+                            </div>
+                            <div class="col-12">
+                                <p id="description"><b>Description:</b> <i><%= item.getDescription()%></i></p>
+                            </div>
+                            <input type="hidden" name="deleteId" value="<%= item.getItemId()%>">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-danger float-end">Delete</button>
+                            </div>
+                        </div>
+
+                    </div>
                 </form>
             </div>
-
-            <div class="mt-3">
-                <a href="viewItems.jsp" class="btn btn-primary">Back to Delete Auction</a>
-            </div>
         </div>
-
-        <script>
-            var serverMessage = "<%= message%>";
-        </script>
+        <br><br>
+        <footer class="footer" >
+            Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
+        </footer>
 
         <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+
     </body>
 </html>

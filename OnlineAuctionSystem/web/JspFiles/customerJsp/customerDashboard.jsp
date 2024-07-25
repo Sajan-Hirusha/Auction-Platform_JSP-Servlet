@@ -1,5 +1,5 @@
-<%@page import="com.app.classes.Auction"%>
-<%@page import="java.util.ArrayList"%>
+<%@ page import="com.app.classes.Auction" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.app.classes.Item" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -14,71 +14,93 @@
 %>
 <html>
     <head>
-        <title>Title</title>
+        <title>Active Auctions</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+        <link rel="stylesheet" href="../../CSS/customerDashboard.css">
+       
     </head>
     <body>
-        <a href="wonItemsListOfCustomer.jsp" class="btn btn-secondary">View Won Items</a>
-        <a href="cart.jsp" class="btn btn-secondary">View Cart</a>
-        <h1>Active Auctions</h1>
 
+        <div id="navbar-container" >
+            <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
+            <div class="nav-menu">
+                <a href="../../home.html" class="nav-menu-item">Home</a>
+                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+            </div>
+
+            <div >
+                <a id="logout" href="../LoginJsp/logout.jsp">Logout</a>
+            </div>
+
+        </div>
         <div class="container">
+            <div class="header-buttons">
+                <a href="wonItemsListOfCustomer.jsp" class="btn btn-secondary me-2">View Won Items</a>
+                <a href="cart.jsp" class="btn btn-secondary">View Cart</a>
+            </div>
+
+            <h1 class="mb-4">Active Auctions</h1>
+
+            <% if (!message.isEmpty()) {%>
+            <div class="alert <%= message.contains("Error") ? "alert-danger" : "alert-info"%> alert-dismissible fade show alert-container" role="alert">
+                <%= message%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+
             <div class="row">
-                <div class="col-12">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>ItemId</th>
-                                <th>ItemName</th>
-                                <th>Item Description</th>
-                                <th>Item Condition</th>
-                                <th>Item Category</th>
-                                <th>Item image</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                List<Item> items = new ArrayList<Item>();
-                                try {
-                                    Auction auction = new Auction();
-                                    items = auction.getAllActiveAuctionItems();
-                                 
-                                } catch (Exception e) {
-                                    message = "Error fetching items!";
+                <%
+                    List<Item> items = new ArrayList<Item>();
+                    try {
+                        Auction auction = new Auction();
+                        items = auction.getAllActiveAuctionItems();
+                    } catch (Exception e) {
+                        message = "Error fetching items!";
+                    }
 
-                                }
-
-                                if (items != null && !items.isEmpty()) {
-                                    for (Item item : items) {
-                            %>
-                            <tr>
-                                <td><%= item.getItemId()%></td>
-                                <td><%= item.getItemName()%></td>
-                                <td><%= item.getDescription()%></td>
-                                <td><%= item.getCondition()%></td>
-                                <td><%= item.getCategory()%></td>
-                                <td><% if (!item.getBase64Image().isEmpty()) {%>
-                                    <img style="height: 100px; width: 100px;" src="data:image/jpeg;base64,<%= item.getBase64Image()%>">
-                                    <% } else { %> No Image <% }%>
-                                </td>
-                               <td><a class="btn btn-success" href="/OnlineAuctionSystem/JspFiles/customerJsp/bidForm.jsp?id=<%=item.getItemId()%>&auctionId=<%=item.getAuctionIDForBID()%>">Bid To This</a></td>
-
-                            </tr>
-                            <%
-                                }
-                            } else {
-                            %>
-                            <tr>
-                                <td colspan="6">No items found.</td>
-                            </tr>
-                            <%
-                                }
-                            %>
-                        </tbody>
-                    </table>
+                    if (items != null && !items.isEmpty()) {
+                        for (Item item : items) {
+                %>
+                <div class="col-md-4">
+                    <div class="card">
+                        <% if (!item.getBase64Image().isEmpty()) {%>
+                        <img src="data:image/jpeg;base64,<%= item.getBase64Image()%>" class="card-img-top" alt="<%= item.getItemName()%>">
+                        <% } else { %>
+                        <img src="https://via.placeholder.com/350x180" class="card-img-top" alt="Placeholder Image">
+                        <% }%>
+                        <div class="card-body">
+                            <h5 class="card-title"><%= item.getItemName()%></h5>
+                            <p class="card-text"><strong>Description:</strong> <%= item.getDescription()%></p>
+                            <p class="card-text"><strong>Condition:</strong> <%= item.getCondition()%></p>
+                            <p class="card-text"><strong>Category:</strong> <%= item.getCategory()%></p>
+                            <a class="btn btn-success" href="bidForm.jsp?id=<%= item.getItemId()%>&auctionId=<%= item.getAuctionIDForBID()%>">Bid Now</a>
+                        </div>
+                    </div>
                 </div>
+                <%
+                    }
+                } else {
+                %>
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        No items found.
+                    </div>
+                </div>
+                <%
+                    }
+                %>
             </div>
         </div>
+
+        <footer class="footer" >
+            Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     </body>
 </html>

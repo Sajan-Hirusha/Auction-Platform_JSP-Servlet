@@ -1,0 +1,57 @@
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    flex: 1;
+}
+
+.btn-primary, .btn-success {
+    margin: 5px 0;
+}
+
+.alert-container {
+    margin-top: 20px;
+}
+
+.alert-info {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border-color: #c6c8ca;
+}
+
+.btn-group {
+    text-align: right;
+    margin-bottom: 20px;
+}
+

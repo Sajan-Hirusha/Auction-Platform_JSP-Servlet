@@ -1,0 +1,63 @@
+#main{
+      margin-top: 10px;
+      padding-top: 10px;
+       padding-bottom: 50px;
+       margin-bottom:10px;
+        background-image:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url('../JspFiles/images/SellerSide.jpg');
+   background-repeat: no-repeat;
+    background-size: cover;
+  
+}
+.backButton{
+     background: linear-gradient(0deg, rgba(255,165,0,1) 16%, rgba(255,140,0,1) 87%) !important;
+    margin-left:120px;
+    margin-top: 20px;
+    width: auto;
+}
+.card{
+     height:auto;
+    max-width: 1200px;
+    background: rgba(234, 228, 228, 0.19);
+    border: 2px solid rgba(251, 251, 251, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding: 20px;
+    width: 100%;
+   margin: auto;
+}
+.card p{
+    color: white;
+}
+ h2{
+    color: white;
+    text-align: center;
+}
+#description{
+      background: rgba(234, 228, 228, 0.19);
+  padding: 20px;
+  border-radius: 10px;
+}
+.card h4{
+    color: white;
+}
+.container {
+    margin-top: 50px;
+}
+.img-thumbnail {
+    max-height: 150px;
+    max-width: 150px;
+    object-fit: cover;
+}
+.form-label {
+    font-weight: bold;
+}
+.btn-primary {
+     background: linear-gradient(0deg, rgba(255,165,0,1) 16%, rgba(255,140,0,1) 87%) !important;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}

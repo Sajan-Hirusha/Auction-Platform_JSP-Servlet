@@ -98,7 +98,7 @@
 
                 <form method="post" action="" class="row g-3 needs-validation" enctype="multipart/form-data" novalidate>
                     <h1>Update form</h1>
-                    
+
                     <div class="md-6  updateImage">
                         <label for="validationCustom05" class="form-label ">Edit Image </label><br>
                         <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) {%>
@@ -115,7 +115,7 @@
                             Please select a valid image.
                         </div>
                     </div>
-                   
+
                     <div class="col-md-6">
                         <label for="validationCustom06" class="form-label">Item ID</label>
                         <input type="text" class="form-control" id="validationCustom08" name="itemIDDisabled"
@@ -137,7 +137,7 @@
                     <div class="col-md-12">
                         <label for="validationCustomUsername" class="form-label">Edit Description</label>
                         <textarea class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
-                                 rows="3" name="updateDescription" value="<%=item != null ? item.getDescription() : ""%>" required>
+                                  rows="3" name="updateDescription" value="<%=item != null ? item.getDescription() : ""%>" required>
                         </textarea>
                         <div class="valid-feedback">
                             Looks good!
@@ -177,11 +177,11 @@
                             Please select a valid condition.
                         </div>
                     </div>
-                   <div class="mt-4">
-    <div class="col-12">
-      <button class="btn btn-primary float-end" type="submit">Submit form</button>
-    </div>
-  </div>
+                    <div class="mt-4">
+                        <div class="col-12">
+                            <button class="btn btn-primary float-end" type="submit">Submit form</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

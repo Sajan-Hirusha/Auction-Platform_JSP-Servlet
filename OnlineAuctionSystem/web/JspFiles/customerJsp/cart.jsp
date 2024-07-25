@@ -18,7 +18,7 @@
             boolean buyNow = cart.buyNow(auctionID);
 
             if (buyNow) {
-                message = "Item Shiped Soon";
+                message = "Item Shipped Soon";
             } else {
                 message = "Failed to buy.";
             }
@@ -27,7 +27,6 @@
         }
     }
     
-    
     List<CartItemDetails> cartItems = null;
     try {
         Cart cart = new Cart();
@@ -35,84 +34,82 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
-       message = message == null ? "" : message;
+    message = message == null ? "" : message;
 %>
-
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Cart Items for Seller</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-        }
-    </style>
-       <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+    <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+    <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+    <link rel="stylesheet" href="../../CSS/cart.css">
+    
 </head>
 <body>
-    
-     <div id="alertContainer1"></div>
-    <h2>Cart Items for Seller</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Cart ID</th>
-                <th>Customer ID</th>
-                <th>Item ID</th>
-                <th>Item Name</th>
-                <th>Description</th>
-                <th>Item Image</th>
-                <th>Condition</th>
-                <th>Auction ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% if (cartItems != null) { %>
+     <div id="navbar-container" >
+            <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
+            <div class="nav-menu">
+                <a href="../../home.html" class="nav-menu-item">Home</a>
+                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+            </div>
+
+            <div >
+                <a id="logout" href="../LoginJsp/logout.jsp">Logout</a>
+            </div>
+
+        </div>
+     <div id="main">
+    <div class="container">
+        <div id="alertContainer1" class="alert-container"></div>
+        <h2 class="my-4">Cart Items for Seller</h2>
+        <% if (!message.isEmpty()) { %>
+            <div class="alert alert-info" role="alert">
+                <%= message %>
+            </div>
+        <% } %>
+        <div class="row">
+            <% if (cartItems != null && !cartItems.isEmpty()) { %>
                 <% for (CartItemDetails item : cartItems) { %>
-                    <tr>
-                        <td><%= item.getCartID() %></td>
-                        <td><%= item.getCustomerID() %></td>
-                        <td><%= item.getItemId() %></td>
-                        <td><%= item.getItemName() %></td>
-                        <td><%= item.getDescription() %></td>
-                        <td><% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) { %>
-                                <img alt="Item Image" width="100" height="100" src="data:image/jpeg;base64,<%= item.getBase64Image() %>">
+                    <div class="col-md-4 mb-3">
+                        <div class="card item-card p-3">
+                            <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) { %>
+                                <img src="data:image/jpeg;base64,<%= item.getBase64Image() %>" alt="Item Image">
                             <% } else { %>
-                                No Image
+                                <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image">
                             <% } %>
-                        </td>
-                        <td><%= item.getItemCondition() %></td>
-                        <td><%= item.getAuctionID() %></td>
-                       <td>
-                    <form method="post">
-                        <input type="hidden" name="auctionID" value="<%= item.getAuctionID() %>">
-                        <button type="submit" class="btn btn-success" name="buyNow">Buy Now</button>
-                    </form>
-                </td>
-                    </tr>
+                            <div class="item-card-body">
+                                <h5 class="card-title"><%= item.getItemName() %></h5>
+                                <p class="card-text"><strong>Description:</strong> <%= item.getDescription() %></p>
+                                <p class="card-text"><strong>Condition:</strong> <%= item.getItemCondition() %></p>
+                                <p class="card-text"><strong>Auction ID:</strong> <%= item.getAuctionID() %></p>
+                                <form method="post">
+                                    <input type="hidden" name="auctionID" value="<%= item.getAuctionID() %>">
+                                    <button type="submit" class="btn btn-success">Buy Now</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 <% } %>
             <% } else { %>
-                <tr>
-                    <td colspan="9">No items found.</td>
-                </tr>
+                <div class="col-12">
+                    <div class="alert alert-warning" role="alert">
+                        No items found.
+                    </div>
+                </div>
             <% } %>
-        </tbody>
-    </table>
-        
-        <script>
-            var serverMessage = "<%= message%>";
-        </script>
-      <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
+        </div>
+    </div>
+     </div>
+ <footer class="footer" >
+            Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
+        </footer>
+    <script>
+        var serverMessage = "<%= message %>";
+    </script>
+    <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
 </body>
 </html>
-

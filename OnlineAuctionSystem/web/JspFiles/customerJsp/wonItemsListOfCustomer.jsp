@@ -43,77 +43,76 @@
 <html>
 <head>
     <title>Item and Winner Details</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-       <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
-     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+    <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+    <link rel="stylesheet" href="../../CSS/wonItemsListOfCustomer.css">
+   
 </head>
 <body>
-    
-      <div id="alertContainer1"></div>
-    <h2>Item and Winner Details</h2>
-    <% if (!message.isEmpty()) { %>
-        <p><%= message %></p>
-    <% } %>
-    <table>
-        <thead>
-            <tr>
-                <th>Item ID</th>
-                <th>Item Name</th>
-                <th>Item Image</th>
-                <th>Winning Price</th>
-                <th>Winner Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div id="navbar-container" >
+            <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
+            <div class="nav-menu">
+                <a href="../../home.html" class="nav-menu-item">Home</a>
+                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+            </div>
+
+            <div >
+                <a id="logout" href="../LoginJsp/logout.jsp">Logout</a>
+            </div>
+
+        </div>
+     <div id="main">
+    <div class="container">
+        <div id="alertContainer1" class="alert-container"></div>
+        <h2 class="my-4">Item and Winner Details</h2>
+        <% if (!message.isEmpty()) { %>
+            <div class="alert alert-info" role="alert">
+                <%= message %>
+            </div>
+        <% } %>
+        <div class="row">
             <%
                 for (ItemWinnerDetails item : itemsWithWinners) {
             %>
-            <tr>
-                <td><%= item.getItemId() %></td>
-                <td><%= item.getItemName() %></td>
-                <td> <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) {%>
-                <img alt="Item Image" width="100" height="100" src="data:image/jpeg;base64,<%= item.getBase64Image()%>">
-                <% } else { %>
-                No Image
-                <% }%> </td>
-                <td><%= item.getBidAmount() %></td>
-                <td><%= item.getFullName() %></td>
-                <td>
-                    <form method="post">
-                        <input type="hidden" name="itemId" value="<%= item.getItemId() %>">
-                        <input type="hidden" name="sellerID" value="<%= item.getSellrID() %>">
-                        <input type="hidden" name="auctionID" value="<%= item.getAuctionID() %>">
-                        <button type="submit" class="btn btn-success" name="addToCartBtn">Accept And Add To Cart</button>
-                    </form>
-                </td>
-            </tr>
+            <div class="col-md-4">
+                <div class="card item-card">
+                    <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) { %>
+                    <img src="data:image/jpeg;base64,<%= item.getBase64Image() %>" class="card-img-top" alt="Item Image">
+                    <% } else { %>
+                    <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No Image">
+                    <% } %>
+                    <div class="card-body item-card-body">
+                        <h5 class="card-title"><%= item.getItemName() %></h5>
+                        <p class="card-text">Winning Price: $<%= item.getBidAmount() %></p>
+                        <p class="card-text">Winner Name: <%= item.getFullName() %></p>
+                        <form method="post">
+                            <input type="hidden" name="itemId" value="<%= item.getItemId() %>">
+                            <input type="hidden" name="sellerID" value="<%= item.getSellrID() %>">
+                            <input type="hidden" name="auctionID" value="<%= item.getAuctionID() %>">
+                            <button type="submit" class="btn btn-success">Accept And Add To Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <%
                 }
             %>
-        </tbody>
-    </table>
-        
-        
-        <script>
-            var serverMessage = "<%= message%>";
-        </script>
-      <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        </div>
+    </div>
+     </div>
+  <footer class="footer" >
+            Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
+        </footer>
+    <script>
+        var serverMessage = "<%= message %>";
+    </script>
+    <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 </body>
 </html>

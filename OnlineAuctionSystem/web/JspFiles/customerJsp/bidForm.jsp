@@ -13,7 +13,17 @@
         <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
         <link rel="stylesheet" href="../../CSS/bidForm.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
-
+        <style>
+            #countdown {
+                background-color: #f8f9fa;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body>
         <%
@@ -26,6 +36,8 @@
                 return;
             }
             String itemId = request.getParameter("id");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
             Item item = new Item().getItem(itemId);
             String auctionId = request.getParameter("auctionId");
 
@@ -48,7 +60,7 @@
             message = message == null ? "" : message;
         %>
 
-        <div id="navbar-container" >
+        <div id="navbar-container">
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
                 <a href="../../home.html" class="nav-menu-item">Home</a>
@@ -57,11 +69,11 @@
                 <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
-            <div >
+            <div>
                 <a id="logout" href="../LoginJsp/logout.jsp">Logout</a>
             </div>
-
         </div>
+
         <div id="alertContainer1"></div>
         <div id="main">
             <div class="container">
@@ -80,24 +92,25 @@
                                     <div class="col-md-12 mt-4">
                                         <p class="card-text" id="description"><strong>Description:</strong> <%= item.getDescription()%></p>
                                     </div>
-                                    <div class="col-md-4  mt-4">
+                                    <div class="col-md-4 mt-4">
                                         <p class="card-text"><strong>Category:</strong> <%= item.getCategory()%></p>
                                     </div>
-                                    <div class="col-md-4  mt-4">
+                                    <div class="col-md-4 mt-4">
                                         <p class="card-text"><strong>Condition:</strong> <%= item.getCondition()%></p>
                                     </div>
-                                    <div class="col-md-4  mt-4">
+                                    <div class="col-md-4 mt-4">
                                         <p><strong>Maximum Bid:</strong> <%= getMaxBid.maxBid(auctionId)%></p>
                                     </div>
-                                    <div class="col-md-6  mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) {%>
                                         <img class="img-thumbnail" src="data:image/jpeg;base64,<%= item.getBase64Image()%>" alt="Item Image">
                                         <% } else { %>
                                         <p>No Image Available</p>
                                         <% }%>
                                     </div>
-
-
+                                    <div class="col-12 mb-4">
+                                        <div id="countdown"></div>
+                                    </div>
                                     <form method="post" action="" class="needs-validation" novalidate>
                                         <div class="mb-3">
                                             <label for="bidAmount" class="form-label">Bid Amount</label>
@@ -115,18 +128,46 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
-        <footer class="footer" >
+
+        <footer class="footer">
             Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
         </footer>
+
         <script>
-            var serverMessage = "<%= message%>";
+            document.addEventListener('DOMContentLoaded', function() {
+                var serverMessage = "<%= message %>";
+                var countdownElement = document.getElementById('countdown');
+                
+                <% 
+                String auctionEndDate = endDate; 
+                %>
+                
+                var endDate = new Date("<%= auctionEndDate %>").getTime();
+                
+                var countdown = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = endDate - now;
+
+                    if (distance < 0) {
+                        clearInterval(countdown);
+                        countdownElement.innerHTML = "Auction Ended";
+                        return;
+                    }
+
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                }, 1000);
+            });
         </script>
+
         <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

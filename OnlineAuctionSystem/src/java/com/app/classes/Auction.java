@@ -157,6 +157,8 @@ public class Auction {
             String itemName = resultSet.getString("itemName");
             byte[] itemImage = resultSet.getBytes("itemImage");
             String itemCondition = resultSet.getString("itemCondition");
+            String startingDateAndTime = resultSet.getString("startingDateAndTime");
+            String endDateAndTime = resultSet.getString("endDateAndTime");
             String base64Image = Base64.getEncoder().encodeToString(itemImage);
             Item item = new Item();
             String categoryName = item.getCategoryName(resultSet.getString("categoryID"));
@@ -164,6 +166,8 @@ public class Auction {
             resultItem.setItemId(itemId);
             resultItem.setBase64Image(base64Image);
             resultItem.setAuctionIDForBID(auctionID);
+            resultItem.setEndDateAndTime(endDateAndTime);
+            resultItem.setStartingDateAndTime(startingDateAndTime);
             itemList.add(resultItem);
         }
         return itemList;

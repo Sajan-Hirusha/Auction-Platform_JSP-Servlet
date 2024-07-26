@@ -35,6 +35,9 @@
     color: white;
     text-align: center;
 }
+.card-title{
+     color: rgba(255,165,0,1) !important;
+}
 #description{
       background: rgba(234, 228, 228, 0.19);
   padding: 20px;

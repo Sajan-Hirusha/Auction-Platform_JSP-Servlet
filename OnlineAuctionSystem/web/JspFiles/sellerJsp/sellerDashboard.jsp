@@ -17,19 +17,7 @@
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
         <link rel="stylesheet" href="../../CSS/sellerDashboard.css">
-        <style>
-            #countdown {
-                background-color: #f8f9fa;
-                padding: 10px;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                text-align: center;
-            }
-            .countdown-timer {
-                font-size: 1.2rem;
-                font-weight: bold;
-            }
-        </style>
+        
     </head>
     <body>
         <%

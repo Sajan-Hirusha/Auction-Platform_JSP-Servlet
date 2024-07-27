@@ -11,8 +11,8 @@
             if (session1 != null) {
                 session1.invalidate();
             }
-         
-            response.sendRedirect("../../home.html");
+
+            response.sendRedirect("../../index.html");
         %>
     </body>
 </html>

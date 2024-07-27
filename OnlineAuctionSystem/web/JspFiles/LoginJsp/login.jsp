@@ -3,11 +3,22 @@
 <%@page import="com.app.classes.Seller"%>
 <%@page import="java.sql.SQLException"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String customerID = (String) session.getAttribute("customerID");
+    if (customerID != null) {
+        response.sendRedirect("../customerJsp/customerDashboard.jsp");
+        return;
+    }
+    String sellerID = (String) session.getAttribute("sellerID");
+    if (sellerID != null) {
+        response.sendRedirect("../sellerJsp/sellerDashboard.jsp");
+        return;
+    }
+%>
 <html>
     <head>
         <title>Title</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="../../CSS/Login.css">
@@ -32,38 +43,41 @@
             if ("0".equals(id)) {
                 message1 = "You Successfully Registered!";
             }
-            String email = request.getParameter("loggingEmail");
-            String password = request.getParameter("loggingPassword");
-            String position = request.getParameter("position");
-            if (email != null && password != null && position != null) {
-                try {
-                    if ("admin".equals(position)) {
 
-                    } else if ("seller".equals(position)) {
-                        Seller seller = new Seller(email, password);
-                        if (seller.sellerLogin()) {
-                            System.out.println(seller.getSellerID());
-                            session.setAttribute("sellerID", seller.getSellerID());
-                            response.sendRedirect(request.getContextPath() + "/JspFiles/sellerJsp/sellerDashboard.jsp");
-                            return;
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                String email = request.getParameter("loggingEmail");
+                String password = request.getParameter("loggingPassword");
+                String position = request.getParameter("position");
+                if (email != null && password != null && position != null) {
+                    try {
+                        if ("admin".equals(position)) {
+
+                        } else if ("seller".equals(position)) {
+                            Seller seller = new Seller(email, password);
+                            if (seller.sellerLogin()) {
+                                System.out.println(seller.getSellerID());
+                                session.setAttribute("sellerID", seller.getSellerID());
+                                response.sendRedirect(request.getContextPath() + "/JspFiles/sellerJsp/sellerDashboard.jsp");
+                                return;
+                            } else {
+                                message = "Not Matched Login Details!";
+                            }
+                        } else if ("customer".equals(position)) {
+                            Customer customer = new Customer(email, password);
+                            if (customer.customerLogin()) {
+                                System.out.println(customer);
+                                session.setAttribute("customerID", customer.getCustomerID());
+                                response.sendRedirect("../customerJsp/customerDashboard.jsp");
+                            } else {
+                                message = "Not Matched Login Details!";
+                            }
                         } else {
-                            message = "Not Matched Login Details!";
+                            message = "Invalid position!";
                         }
-                    } else if ("customer".equals(position)) {
-                        Customer customer = new Customer(email, password);
-                        if (customer.customerLogin()) {
-                            System.out.println(customer);
-                            session.setAttribute("customerID", customer.getCustomerID());
-                            response.sendRedirect("../customerJsp/customerDashboard.jsp");
-                        } else {
-                            message = "Not Matched Login Details!";
-                        }
-                    } else {
-                        message = "Invalid position!";
+                    } catch (SQLException e) {
+                        message = "Error!";
+                        throw new RuntimeException(e);
                     }
-                } catch (SQLException e) {
-                    message = "Error!";
-                    throw new RuntimeException(e);
                 }
             }
             message = message == null ? "" : message;
@@ -78,10 +92,10 @@
         <div id="navbar-container" >
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="../../home.html" class="nav-menu-item">Home</a>
-                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
-                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
-                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+                <a href="../../index.html" class="nav-menu-item">Home</a>
+                <a href="../../index.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../index.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../index.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div class="dropdown mx-4 px-4" >
@@ -116,7 +130,7 @@
                     <div class="col-12">
                         <div class="mb-2">
                             <div class="text-center mb-2">
-                                <a id="signInLogo" href="#!">
+                                <a id="signInLogo" href="../../index.html">
 
                                     <img class="mt-2" src="../images/logo.png" alt="logo"
                                          width="50" height="50">
@@ -203,9 +217,7 @@
                 document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>'); // Default behavior
             }
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     </body>
 </html>

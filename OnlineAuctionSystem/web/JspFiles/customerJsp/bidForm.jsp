@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Submit Bid</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+              crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
         <link rel="stylesheet" href="../../CSS/bidForm.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
@@ -28,6 +28,7 @@
     <body>
         <%
             String message = "";
+            String message1 = "";
             String customerID = (String) session.getAttribute("customerID");
             Bid bid = null;
             Bid getMaxBid = new Bid();
@@ -48,7 +49,7 @@
                     bid = new Bid(bidAmount, itemId, new Timestamp(System.currentTimeMillis()), customerID);
                     bid.setAuctionID(auctionId);
                     if (bid.placeBid()) {
-                        message = "Bid Placed Successfully!";
+                        message1 = "Bid Placed Successfully!";
                     } else {
                         response.sendRedirect("../error.jsp?message=" + "Failed to place bid");
                         return;
@@ -58,15 +59,17 @@
                 }
             }
             message = message == null ? "" : message;
+            message1 = message1 == null ? "" : message1;
         %>
-
+        <div id="alertContainer"></div>
+        <div id="alertContainer1"></div>
         <div id="navbar-container">
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="../../home.html" class="nav-menu-item">Home</a>
-                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
-                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
-                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+                <a href="../../index.html" class="nav-menu-item">Home</a>
+                <a href="../../index.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../index.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../index.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div>
@@ -139,38 +142,42 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var serverMessage = "<%= message %>";
-                var countdownElement = document.getElementById('countdown');
-                
-                <% 
-                String auctionEndDate = endDate; 
+            var serverMessage = "<%= message%>";
+            var countdownElement = document.getElementById('countdown');
+                <%
+                    String auctionEndDate = endDate;
                 %>
-                
-                var endDate = new Date("<%= auctionEndDate %>").getTime();
-                
-                var countdown = setInterval(function() {
-                    var now = new Date().getTime();
-                    var distance = endDate - now;
 
-                    if (distance < 0) {
-                        clearInterval(countdown);
-                        countdownElement.innerHTML = "Auction Ended";
-                        return;
-                    }
+            var endDate = new Date("<%= auctionEndDate%>").getTime();
+            var countdown = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = endDate - now;
+            if (distance < 0) {
+            clearInterval(countdown);
+            countdownElement.innerHTML = "Auction Ended";
+            return;
+            }
 
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-                }, 1000);
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+            }, 1000);
             });
-        </script>
+                <script>
+    var serverMessage = "<%= message%>";
+            var serverMessage1 = "<%= message1%>";
+            
+            if (serverMessage1 !== "" && serverMessage1 !== null) {
+                document.write('<script src="../../JS/formvalidationWithSuccessAlert.js"><\/script>');
+                } else if (serverMessage !== "" && serverMessage !== null) {
 
-        <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    </body>
-</html>
+                    document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>');
+            } 
+                else {                     document.write('<script src="../.
+                    ./JS/formValidationWithFailure.js"><\/script>'); // Default behavior
+            }
+                </script>
+            </body>
+        </html>

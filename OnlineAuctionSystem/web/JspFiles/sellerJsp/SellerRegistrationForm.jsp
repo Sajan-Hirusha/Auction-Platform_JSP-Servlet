@@ -55,10 +55,10 @@
         <div id="navbar-container" >
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="../../home.html" class="nav-menu-item">Home</a>
-                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
-                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
-                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+                <a href="../../index.html" class="nav-menu-item">Home</a>
+                <a href="../../index.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../index.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../index.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div class="dropdown mx-4 px-4" >
@@ -92,7 +92,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <div class="text-center mb-1">
-                                    <a id="signInLogo" href="#!">
+                                    <a id="signInLogo" href="../../index.html">
 
                                         <img class="mt-2" src="../images/logo.png" alt="logo"
                                              width="50" height="50">

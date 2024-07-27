@@ -15,18 +15,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Item and Winner Details</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
         <link rel="stylesheet" href="../../CSS/getWinnerList.css">
     </head>
     <body>
+
+
         <div id="navbar-container" >
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="../../home.html" class="nav-menu-item">Home</a>
-                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
-                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
-                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+                <a href="../../index.html" class="nav-menu-item">Home</a>
+                <a href="../../index.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../index.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../index.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div >
@@ -35,6 +37,9 @@
 
         </div>
         <div id="main">
+            <div class="col-12">
+                <a href="sellerDashboard.jsp" class="btn btn-primary backButton">Back to seller dashboard</a>
+            </div>
             <div class="container">
                 <div class="header">
                     <h2 class="mb-4 mt-4">Waiting For Customer Approval</h2>
@@ -81,6 +86,6 @@
         <footer class="footer" >
             Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
         </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

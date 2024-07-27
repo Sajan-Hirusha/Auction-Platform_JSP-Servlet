@@ -14,16 +14,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Add Item</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+              crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+        <link rel="stylesheet" href="../../CSS/alertSuccess.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
         <link rel="stylesheet" href="../../CSS/AddItem.css">
 
     </head>
     <body>
-        
+
         <%
             String message = "";
+            String message1 = "";
             String sellerID = (String) session.getAttribute("sellerID");
             if (sellerID == null) {
                 response.sendRedirect("login.jsp");
@@ -48,7 +50,7 @@
                     try {
                         Item newItem = new Item(description, itemName, fileBytes, condition, category, sellerID);
                         if (newItem.addItem()) {
-                            message = "Item Added Successfully!";
+                            message1 = "Item Added Successfully!";
                         } else {
                             message = "Failed to add item";
                         }
@@ -59,15 +61,18 @@
             }
 
             message = message == null ? "" : message;
-            System.out.println(message);
+            message1 = message1 == null ? "" : message1;
         %>
+        <div id="alertContainer"></div>
+        <div id="alertContainer1"></div>
+
         <div id="navbar-container" >
             <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
             <div class="nav-menu">
-                <a href="../../home.html" class="nav-menu-item">Home</a>
-                <a href="../../home.html#about" class="nav-menu-item">About Us</a>
-                <a href="../../home.html#services" class="nav-menu-item">Our Services</a>
-                <a href="../../home.html#contact" class="nav-menu-item">Contact Us</a>
+                <a href="../../index.html" class="nav-menu-item">Home</a>
+                <a href="../../index.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../index.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../index.html#contact" class="nav-menu-item">Contact Us</a>
             </div>
 
             <div >
@@ -106,8 +111,13 @@
                                 <select class="form-select" id="validationCustom06" name="category" required>
                                     <option selected disabled value="">Choose...</option>
                                     <option value="tech">Tech</option>
-                                    <option value="decorations">Decorations</option>
+                                    <option value="fashion">Fashion</option>
                                     <option value="electronic">Electronic</option>
+                                    <option value="travel">Travel</option>
+                                    <option value="music">Music</option>
+                                    <option value="sport">Sport</option>
+                                    <option value="business">Business</option>
+                                    <option value="office">Office</option>
                                 </select>
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">Please select a category.</div>
@@ -141,12 +151,19 @@
             Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
         </footer>
 
+
         <script>
             var serverMessage = "<%= message%>";
+            var serverMessage1 = "<%= message1%>";
+
+            if (serverMessage1 !== "" && serverMessage1 !== null) {
+                document.write('<script src="../../JS/formvalidationWithSuccessAlert.js"><\/script>');
+            } else if (serverMessage !== "" && serverMessage !== null) {
+                document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>');
+            } else {
+                document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>'); // Default behavior
+            }
         </script>
-        <script src="../../JS/formvalidationWithSuccessAlert.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     </body>
 </html>

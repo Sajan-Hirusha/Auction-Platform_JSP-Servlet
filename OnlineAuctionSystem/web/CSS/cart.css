@@ -29,3 +29,11 @@
 .alert-container {
     margin-top: 20px;
 }
+
+.backButton{
+     background: linear-gradient(0deg, rgba(255,165,0,1) 16%, rgba(255,140,0,1) 87%) !important;
+    margin-left:120px;
+    margin-top: 20px;
+    width: auto;
+    border: none;
+}

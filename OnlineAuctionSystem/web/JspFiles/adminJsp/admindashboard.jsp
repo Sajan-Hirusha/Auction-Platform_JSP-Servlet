@@ -1,9 +1,3 @@
-<%-- 
-    Document   : admin
-    Created on : Jul 26, 2024, 4:42:16 PM
-    Author     : test
---%>
-
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.app.classes.Seller"%>
@@ -29,11 +23,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin</title>
-        <link rel="stylesheet" href="../../CSS/AdminStyle.css">
+      
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
               crossorigin="anonymous">
-         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+        <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+          <link rel="stylesheet" href="../../CSS/AdminStyle.css">
     </head>
     <body>
 
@@ -54,7 +49,7 @@
         <div class="Details">
             <h3 class="tittle">Seller Details</h3>
             <div class="user-search my-3 text-center" style="margin-top: 20px;">
-                <input type="text" placeholder="Search" id="search-seller">
+                <input type="text" placeholder="EX: SEL/1" id="search-seller">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <div class="displayDetails">
@@ -80,7 +75,7 @@
                             <td><%= seller.getPhoneNumber()%></td>
                             <td><%= seller.getBusinessName()%></td>
                             <td><%= seller.getEmail()%></td>
-                            <td><a href="deleteSeller.jsp?id=<%= seller.getSellerID()%>"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                            <td><button type="button" class="btn btn-danger" onclick="confirmDelete('<%= seller.getSellerID() %>', 'seller')">Delete</button></td>
                         </tr>
                         <%
                             }
@@ -94,10 +89,11 @@
                 </table>
             </div>
         </div>
+
         <div class="Details">
             <h3 class="tittle">Customer Details</h3>
             <div class="user-search my-3 text-center" style="margin-top: 20px;">
-                <input type="text" placeholder="Search" id="search-customer">
+                <input type="text" placeholder="EX: CUS/1" id="search-customer">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <div class="displayDetails">
@@ -123,7 +119,7 @@
                             <td><%= customer.getPhoneNumber()%></td>
                             <td><%= customer.getAddress()%></td>
                             <td><%= customer.getEmail()%></td>
-                            <td><a href="deleteCustomer.jsp?id=<%= customer.getCustomerID()%>"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                            <td><button type="button" class="btn btn-danger" onclick="confirmDelete('<%= customer.getCustomerID() %>', 'customer')">Delete</button></td>
                         </tr>
                         <%
                             }
@@ -137,6 +133,28 @@
                 </table>
             </div>
         </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this item?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <a id="deleteConfirmBtn" href=""><button type="button" class="btn btn-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer class="footer">
             Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
         </footer>
@@ -171,6 +189,20 @@
             document.getElementById('search-customer').addEventListener('keyup', function () {
                 searchTable('search-customer', 'customer-table-body');
             });
+
+            function confirmDelete(id, type) {
+                var deleteUrl;
+                if (type === 'seller') {
+                    deleteUrl = 'deleteSeller.jsp?id=' + id;
+                } else if (type === 'customer') {
+                    deleteUrl = 'deleteCustomer.jsp?id=' + id;
+                }
+                document.getElementById('deleteConfirmBtn').setAttribute('href', deleteUrl);
+                $('#deleteModal').modal('show');
+            }
         </script>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

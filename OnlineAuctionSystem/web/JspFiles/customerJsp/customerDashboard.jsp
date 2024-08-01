@@ -63,8 +63,8 @@
 
                     if (items != null && !items.isEmpty()) {
                         for (Item item : items) {
-                            String startDate = item.getStartingDateAndTime(); // Assuming this method exists
-                            String endDate = item.getEndDateAndTime(); // Assuming this method exists
+                            String startDate = item.getStartingDateAndTime(); 
+                            String endDate = item.getEndDateAndTime(); 
                 %>
                 <div class="col-md-4 d-flex mb-4">
                     <div class="card w-100 ">

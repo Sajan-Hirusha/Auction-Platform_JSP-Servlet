@@ -52,10 +52,8 @@ public class Admin {
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, getEmail());
         ResultSet resultSet = statement.executeQuery();
-        System.out.println("111111111111");
         if (resultSet.next()) {
 
-            System.out.println("111111111111");
             String resultPass = resultSet.getString("password");
             System.out.println(resultPass);
             if (this.getPassword().equals(resultPass)) {

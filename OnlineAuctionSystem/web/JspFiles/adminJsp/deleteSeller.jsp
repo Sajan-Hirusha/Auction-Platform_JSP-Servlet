@@ -19,10 +19,10 @@
 
 <%
 String sellerID = request.getParameter("id");
-Connection con = null;
 try {
-    con = DbConnection.getConnection();
-    boolean isDeleted = Seller.deleteSellerById(con, sellerID);
+   
+    Seller seller=new Seller();
+    boolean isDeleted = seller.deleteSellerById(sellerID);
 
     if (isDeleted) {
         response.sendRedirect("admindashboard.jsp?deletestatus=1");
@@ -32,13 +32,5 @@ try {
 } catch (Exception e) {
     e.printStackTrace();
     response.sendRedirect("admindashboard.jsp?deletestatus=0");
-} finally {
-    if (con != null) {
-        try {
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
 %>

@@ -1,7 +1,14 @@
+body {
+    background-color: #f0f0f0; /* Light gray background */
+    color: #333333; /* Dark text color */
+}
+
+
 .tittle
 {
-  color: rgb(37, 49, 127);  
-  text-align: center;
+    color: rgba(255,165,0,1);
+    text-align: center;
+    margin-top: 10px;
 }
 .user-search {
     width: 30%;
@@ -23,14 +30,27 @@
 .user-search input:focus {
     outline: none;
 }
-.displayDetails
-{
-    max-width: 80vw;
-    margin: 50px auto;
-}
-.Details
-{
-    margin-top: 20px;
+
+.table {
+    width: 80% ; 
+    margin: 0 auto; 
+    background-color: #212121;
+    color: #e0e0e0;
     margin-bottom: 30px;
 }
-
+.table th {
+    background-color: #424242 ;
+    color: #ffffff;
+}
+.table tbody tr:nth-child(odd) {
+    background-color: #333333;
+}
+.table tbody tr:nth-child(even) {
+    background-color: #2c2c2c;
+}
+.table td, .table th {
+    border-color: #424242;
+}
+.table-hover tbody tr:hover {
+    background-color: #484848;
+}

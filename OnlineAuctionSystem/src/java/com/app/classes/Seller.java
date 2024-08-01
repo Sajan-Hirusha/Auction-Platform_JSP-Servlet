@@ -18,8 +18,8 @@ public class Seller {
     private String businessName;
     private int phoneNumber;
     private String password;
- private String sellerID;
- 
+    private String sellerID;
+
     private final Connection connection;
 
     public Seller() throws ClassNotFoundException, SQLException {
@@ -35,14 +35,15 @@ public class Seller {
         this.password = password;
     }
 
-     public Seller(String fullName, String email, String businessName, int phoneNumber) throws SQLException, ClassNotFoundException {
-         this();
+    public Seller(String fullName, String email, String businessName, int phoneNumber) throws SQLException, ClassNotFoundException {
+        this();
         this.fullName = fullName;
         this.email = email;
         this.businessName = businessName;
         this.phoneNumber = phoneNumber;
-        
+
     }
+
     public Seller(String email, String password) throws SQLException, ClassNotFoundException {
         this();
         this.email = email;
@@ -96,41 +97,41 @@ public class Seller {
     public void setSellerID(String sellerID) {
         this.sellerID = sellerID;
     }
-    
-   public String saveSeller() throws SQLException {
-    String checkUserExistSql = "SELECT * FROM seller WHERE email=?";
-    
-    try {
-        PreparedStatement statement1 = connection.prepareStatement(checkUserExistSql);
-        statement1.setString(1, this.getEmail());
-        ResultSet resultSet = statement1.executeQuery();
 
-        if (resultSet.next()) {
-            return "emailExists"; 
-        } else {
-            String sql = "INSERT INTO seller (sellerID, fullName, phoneNo, businessName, email, password) VALUES (?, ?, ?, ?, ?, ?)";
-            
-            String nextSellerID = generateSellerId();
-            PreparedStatement statement2 = connection.prepareStatement(sql);
-            statement2.setString(1, nextSellerID);
-            statement2.setString(2, this.getFullName());
-            statement2.setInt(3, this.getPhoneNumber());
-            statement2.setString(4, this.getBusinessName());
-            statement2.setString(5, this.getEmail());
-            statement2.setString(6, this.getPassword());
-            
-            int rowsInserted = statement2.executeUpdate();
-            if (rowsInserted > 0) {
-                return "userAdded";
+    public String saveSeller() throws SQLException {
+        String checkUserExistSql = "SELECT * FROM seller WHERE email=?";
+
+        try {
+            PreparedStatement statement1 = connection.prepareStatement(checkUserExistSql);
+            statement1.setString(1, this.getEmail());
+            ResultSet resultSet = statement1.executeQuery();
+
+            if (resultSet.next()) {
+                return "emailExists";
             } else {
-                return "error";
+                String sql = "INSERT INTO seller (sellerID, fullName, phoneNo, businessName, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+
+                String nextSellerID = generateSellerId();
+                PreparedStatement statement2 = connection.prepareStatement(sql);
+                statement2.setString(1, nextSellerID);
+                statement2.setString(2, this.getFullName());
+                statement2.setInt(3, this.getPhoneNumber());
+                statement2.setString(4, this.getBusinessName());
+                statement2.setString(5, this.getEmail());
+                statement2.setString(6, this.getPassword());
+
+                int rowsInserted = statement2.executeUpdate();
+                if (rowsInserted > 0) {
+                    return "userAdded";
+                } else {
+                    return "error";
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "error";
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return "error"; 
     }
-}
 
     public boolean sellerLogin() throws SQLException {
         String sql = "SELECT sellerID,password FROM seller WHERE email=?";
@@ -143,7 +144,7 @@ public class Seller {
             String resultPass = resultSet.getString("password");
             System.out.println(resultPass);
             if (this.getPassword().equals(resultPass)) {
-                this.sellerID=resultSet.getString("sellerID");
+                this.sellerID = resultSet.getString("sellerID");
                 return true;
             }
         }
@@ -158,7 +159,7 @@ public class Seller {
 
         if (resultSet.next()) {
             String lastSellerID = resultSet.getString("sellerID");
-            
+
             String spliData[] = lastSellerID.split("/");
             String lastIntegerAsString = spliData[1];
             int lastIntegerAsInt = Integer.parseInt(lastIntegerAsString);
@@ -170,23 +171,47 @@ public class Seller {
             return nextSellerID;
         }
     }
-    
-    public static boolean deleteSellerById(Connection con, String id) {
-        String query = "DELETE FROM seller WHERE sellerID=?";
-        try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setString(1, id);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+
+    public boolean deleteSellerById(String id) {
+        String deleteAuctionQuery = "DELETE FROM auction WHERE sellerID=?";
+        String deleteItemQuery = "DELETE FROM item WHERE Seller_sellerID=?";
+        String deleteSellerQuery = "DELETE FROM seller WHERE sellerID=?";
+
+        boolean success = false;
+
+        try {
+            // Delete related auctions
+            try (PreparedStatement pstmt = connection.prepareStatement(deleteAuctionQuery)) {
+                pstmt.setString(1, id);
+                pstmt.executeUpdate();
+            }
+
+            // Delete related items
+            try (PreparedStatement pstmt = connection.prepareStatement(deleteItemQuery)) {
+                pstmt.setString(1, id);
+                pstmt.executeUpdate();
+            }
+
+            // Delete the seller
+            try (PreparedStatement pstmt = connection.prepareStatement(deleteSellerQuery)) {
+                pstmt.setString(1, id);
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    success = true;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, e);
         }
+
+        return success;
     }
 
     public static List<Seller> getAllSellers(Connection con) throws ClassNotFoundException {
         List<Seller> sellerList = new ArrayList<>();
         String query = "SELECT * FROM seller";
         try (PreparedStatement pstm = con.prepareStatement(query);
-             ResultSet rs = pstm.executeQuery()) {
+                ResultSet rs = pstm.executeQuery()) {
             while (rs.next()) {
                 Seller seller = new Seller(
                         rs.getString("fullName"),

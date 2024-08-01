@@ -6,6 +6,15 @@
 <%@ page import="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <!DOCTYPE html>
+
+<%
+    String sellerID = (String) session.getAttribute("sellerID");
+    if (sellerID == null) {
+        response.sendRedirect("../LoginJsp/login.jsp");
+        return;
+    }
+%>
+
 <html lang="en">
 
     <head>

@@ -1,4 +1,5 @@
 
+<%@page import="com.app.classes.Admin"%>
 <%@page import="com.app.classes.Customer"%>
 <%@page import="com.app.classes.Seller"%>
 <%@page import="java.sql.SQLException"%>
@@ -14,18 +15,24 @@
         response.sendRedirect("../sellerJsp/sellerDashboard.jsp");
         return;
     }
+
+    String adminId = (String) session.getAttribute("adminId");
+    if (adminId != null) {
+        response.sendRedirect("../adminJsp/admindashboard.jsp");
+        return;
+    }
 %>
 <html>
     <head>
         <title>Title</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="../../CSS/Login.css">
         <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
         <link rel="stylesheet" href="../../CSS/alertSuccess.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
-
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              crossorigin="anonymous">
         <style>
             #imgSection img{
                 height: 100%;
@@ -51,7 +58,12 @@
                 if (email != null && password != null && position != null) {
                     try {
                         if ("admin".equals(position)) {
-
+                            Admin admin = new Admin(email, password);
+                            if (admin.adminLogin()) {
+                                session.setAttribute("adminId", admin.getAdminId());
+                                response.sendRedirect(request.getContextPath() + "/JspFiles/adminJsp/admindashboard.jsp");
+                                return;
+                            }
                         } else if ("seller".equals(position)) {
                             Seller seller = new Seller(email, password);
                             if (seller.sellerLogin()) {

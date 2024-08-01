@@ -8,7 +8,7 @@
     String message = "";
     String customerID = (String) session.getAttribute("customerID");
     if (customerID == null) {
-        response.sendRedirect("login.jsp");
+         response.sendRedirect("../LoginJsp/login.jsp");
         return;
     }
 %>
@@ -66,8 +66,8 @@
                             String startDate = item.getStartingDateAndTime(); // Assuming this method exists
                             String endDate = item.getEndDateAndTime(); // Assuming this method exists
                 %>
-                <div class="col-md-4">
-                    <div class="card">
+                <div class="col-md-4 d-flex mb-4">
+                    <div class="card w-100 ">
                         <% if (!item.getBase64Image().isEmpty()) {%>
                         <img src="data:image/jpeg;base64,<%= item.getBase64Image()%>" class="card-img-top" alt="<%= item.getItemName()%>">
                         <% } else { %>
@@ -75,13 +75,21 @@
                         <% }%>
                         <div class="card-body">
                             <h5 class="card-title"><%= item.getItemName()%></h5>
-                            <p class="card-text"><strong>Description:</strong> <%= item.getDescription()%></p>
+                            <p class="card-text">
+                                <strong>Description:</strong> 
+                                <span id="desc-<%= item.getItemId()%>" class="short-description">
+                                    <%= item.getDescription().length() > 100 ? item.getDescription().substring(0, 100) + "..." : item.getDescription() %>
+                                </span>
+                                <% if (item.getDescription().length() > 100) { %>
+                                <a href="javascript:void(0);" onclick="toggleDescription('<%= item.getItemId()%>', '<%= item.getDescription().replace("'", "\\'") %>')" class="see-more" id="see-more-<%= item.getItemId()%>">See More</a>
+                                <% } %>
+                            </p>
                             <p class="card-text"><strong>Condition:</strong> <%= item.getCondition()%></p>
                             <p class="card-text"><strong>Category:</strong> <%= item.getCategory()%></p>
                             <p class="card-text">
                                 <strong>Time Left:</strong> <span id="countdown-<%= item.getItemId()%>" class="countdown-timer"></span>
                             </p>
-                            <a class="btn btn-success" href="bidForm.jsp?id=<%= item.getItemId()%>&auctionId=<%= item.getAuctionIDForBID()%>&startDate=<%= startDate%>&endDate=<%= endDate%>">Bid Now</a>
+                            <a class="btn btn-success mt-auto" href="bidForm.jsp?id=<%= item.getItemId()%>&auctionId=<%= item.getAuctionIDForBID()%>&startDate=<%= startDate%>&endDate=<%= endDate%>">Bid Now</a>
                         </div>
                     </div>
                 </div>
@@ -108,10 +116,10 @@
         crossorigin="anonymous"></script>
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function () {
-            <%
+                <%
                     for (Item item : items) {
                         String endDate = item.getEndDateAndTime();
-            %>
+                %>
                 (function () {
                     var endDate = new Date("<%= endDate%>").getTime();
                     var timerElement = document.getElementById('countdown-<%= item.getItemId()%>');
@@ -134,10 +142,22 @@
                         timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
                     }, 1000);
                 })();
-            <%
+                <%
                     }
-            %>
+                %>
             });
+
+            function toggleDescription(itemId, fullDescription) {
+                var desc = document.getElementById('desc-' + itemId);
+                var seeMore = document.getElementById('see-more-' + itemId);
+                if (seeMore.innerHTML === 'See More') {
+                    desc.innerHTML = fullDescription;
+                    seeMore.innerHTML = 'See Less';
+                } else {
+                    desc.innerHTML = fullDescription.substring(0, 100) + "...";
+                    seeMore.innerHTML = 'See More';
+                }
+            }
         </script>
     </body>
 </html>

@@ -39,10 +39,12 @@ h1 {
     background-color: #343a40;
     color: #ffffff;
     border: none;
+   font-size: 14px !important;
 }
 
 .table tbody tr {
     transition: background-color 0.3s;
+     font-size: 14px !important;
 }
 
 .table tbody tr:hover {

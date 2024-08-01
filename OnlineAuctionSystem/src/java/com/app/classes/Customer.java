@@ -6,154 +6,200 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Customer {
 
-   private String fullName;
-   private String email;
-   private String address;
-   private int phoneNumber;
-   private String password;
- private String customerID;
- 
-   private final Connection connection;
-   public Customer() throws ClassNotFoundException, SQLException {
-      this.connection = DbConnection.getConnection();
-   }
+    private String fullName;
+    private String email;
+    private String address;
+    private int phoneNumber;
+    private String password;
+    private String customerID;
 
-   public Customer(String fullName, String email, String address, int phoneNumber, String password) throws SQLException, ClassNotFoundException {
-      this();
-      this.fullName=fullName;
-      this.email=email;
-      this.address=address;
-      this.phoneNumber=phoneNumber;
-      this.password=password;
-   }
+    private final Connection connection;
 
-   public Customer(String email, String password) throws SQLException, ClassNotFoundException {
-      this();
-      this.email=email;
-      this.password=password;
-   }
+    public Customer() throws ClassNotFoundException, SQLException {
+        this.connection = DbConnection.getConnection();
+    }
 
-   public String getFullName() {
-      return fullName;
-   }
+    public Customer(String fullName, String email, String address, int phoneNumber, String password) throws SQLException, ClassNotFoundException {
+        this();
+        this.fullName = fullName;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 
-   public void setFullName(String fullName) {
-      this.fullName = fullName;
-   }
+    public Customer(String fullName, String email, String address, int phoneNumber) throws SQLException, ClassNotFoundException {
+        this();
+        this.fullName = fullName;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
 
-   public String getEmail() {
-      return email;
-   }
+    public Customer(String email, String password) throws SQLException, ClassNotFoundException {
+        this();
+        this.email = email;
+        this.password = password;
+    }
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+    public String getFullName() {
+        return fullName;
+    }
 
-   public String getAddress() {
-      return address;
-   }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-   public void setAddress(String address) {
-      this.address = address;
-   }
+    public String getEmail() {
+        return email;
+    }
 
-   public int getPhoneNumber() {
-      return phoneNumber;
-   }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-   public void setPhoneNumber(int phoneNumber) {
-      this.phoneNumber = phoneNumber;
-   }
+    public String getAddress() {
+        return address;
+    }
 
-   public String getPassword() {
-      return password;
-   }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
-   
-   public String getCustomerID() {
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCustomerID() {
         return customerID;
     }
 
     public void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
-   public String saveCustomer() throws SQLException {
+
+    public String saveCustomer() throws SQLException {
 
         String checkUserExistSql = "SELECT * FROM customer WHERE email=?";
-    
-    try {
-        PreparedStatement statement1 = connection.prepareStatement(checkUserExistSql);
-        statement1.setString(1, this.getEmail());
-        ResultSet resultSet = statement1.executeQuery();
 
-        if (resultSet.next()) {
-            return "emailExists"; 
-        } else {
-      String sql = "Insert Into customer (customerID, fullName,phoneNo,address,email,password)VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement1 = connection.prepareStatement(checkUserExistSql);
+            statement1.setString(1, this.getEmail());
+            ResultSet resultSet = statement1.executeQuery();
 
-      String customerID=generateCustomerId();
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.setString(1,customerID);
-      statement.setString(2,this.getFullName());
-      statement.setInt(3,this.getPhoneNumber());
-      statement.setString(4,this.getAddress());
-      statement.setString(5,this.getEmail());
-      statement.setString(6,this.getPassword());
-
-       int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                return "userAdded";
+            if (resultSet.next()) {
+                return "emailExists";
             } else {
-                return "error";
+                String sql = "Insert Into customer (customerID, fullName,phoneNo,address,email,password)VALUES (?,?,?,?,?,?)";
+
+                String customerID = generateCustomerId();
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, customerID);
+                statement.setString(2, this.getFullName());
+                statement.setInt(3, this.getPhoneNumber());
+                statement.setString(4, this.getAddress());
+                statement.setString(5, this.getEmail());
+                statement.setString(6, this.getPassword());
+
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    return "userAdded";
+                } else {
+                    return "error";
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    public boolean customerLogin() throws SQLException {
+        String sql = "SELECT password,customerID  FROM customer WHERE email=?";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, getEmail());
+
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            String resultPass = resultSet.getString("password");
+            System.out.println(resultPass);
+            if (this.getPassword().equals(resultPass)) {
+                this.customerID = resultSet.getString("customerID");
+                return true;
             }
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return "error"; 
+        return false;
     }
-   }
 
-   public boolean customerLogin() throws SQLException {
-      String sql = "SELECT password,customerID  FROM customer WHERE email=?";
+    public String generateCustomerId() throws SQLException {
+        String sql = "Select customerID from customer ORDER BY CAST(SUBSTRING(customerID,5) AS UNSIGNED) DESC LIMIT 1";
+        PreparedStatement statement = connection.prepareStatement(sql);
 
-      PreparedStatement statement = connection.prepareStatement(sql);
-      statement.setString(1,getEmail());
+        ResultSet resultSet = statement.executeQuery();
 
-      ResultSet resultSet = statement.executeQuery();
-      if (resultSet.next()) {
-         String resultPass=resultSet.getString("password");
-         System.out.println(resultPass);
-         if (this.getPassword().equals(resultPass)) {
-             this.customerID=resultSet.getString("customerID");
-            return true;
-         }
-      }
-     return false;
-   }
+        if (resultSet.next()) {
+            String lastCustomerID = resultSet.getString("customerID");
+            String spliData[] = lastCustomerID.split("/");
+            String lastIntegerAsString = spliData[1];
+            int lastIntegerAsInt = Integer.parseInt(lastIntegerAsString);
+            lastIntegerAsInt++;
+            String nextCustomerID = "CUS/" + lastIntegerAsInt;
+            return nextCustomerID;
+        } else {
+            String nextCustomerID = "CUS/" + 1;
+            return nextCustomerID;
+        }
+    }
 
-   public String generateCustomerId() throws SQLException {
-      String sql = "Select customerID from customer ORDER BY CAST(SUBSTRING(customerID,5) AS UNSIGNED) DESC LIMIT 1";
-      PreparedStatement statement = connection.prepareStatement(sql);
+    public static boolean deleteCustomerById(Connection con, String id) {  // Changed id to String
+        String query = "DELETE FROM customer WHERE customerID=?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, id);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
-      ResultSet resultSet = statement.executeQuery();
-
-      if (resultSet.next()) {
-                 String lastCustomerID=resultSet.getString("customerID");
-                 String spliData[]=lastCustomerID.split("/");
-                 String lastIntegerAsString=spliData[1];
-                 int lastIntegerAsInt=Integer.parseInt(lastIntegerAsString);
-                 lastIntegerAsInt++;
-                 String nextCustomerID="CUS/"+lastIntegerAsInt;
-                 return nextCustomerID;
-      }else{
-         String nextCustomerID="CUS/"+1;
-         return nextCustomerID;
-      }
-   }
+    public static List<Customer> getAllCustomers(Connection con) throws ClassNotFoundException {
+        List<Customer> customerList = new ArrayList<>();
+        String query = "SELECT * FROM customer";
+        try (PreparedStatement pstm = con.prepareStatement(query);
+                ResultSet rs = pstm.executeQuery()) {
+            while (rs.next()) {
+                Customer customer = new Customer(
+                        rs.getString("fullName"),
+                        rs.getString("email"),
+                        rs.getString("address"),
+                        rs.getInt("phoneNo")
+                );
+                customer.setCustomerID(rs.getString("customerID"));
+                customerList.add(customer);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return customerList;
+    }
 }

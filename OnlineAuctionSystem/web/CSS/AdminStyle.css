@@ -1,0 +1,36 @@
+.tittle
+{
+  color: rgb(37, 49, 127);  
+  text-align: center;
+}
+.user-search {
+    width: 30%;
+    border: solid rgb(128, 127, 127) 1px;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 20px auto;
+}
+
+.user-search input {
+    border: none;
+    background: transparent;
+    width: 100%;
+}
+
+.user-search input:focus {
+    outline: none;
+}
+.displayDetails
+{
+    max-width: 80vw;
+    margin: 50px auto;
+}
+.Details
+{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+

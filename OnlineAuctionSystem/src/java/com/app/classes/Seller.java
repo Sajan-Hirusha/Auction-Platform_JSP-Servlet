@@ -6,6 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Seller {
 
@@ -31,6 +35,14 @@ public class Seller {
         this.password = password;
     }
 
+     public Seller(String fullName, String email, String businessName, int phoneNumber) throws SQLException, ClassNotFoundException {
+         this();
+        this.fullName = fullName;
+        this.email = email;
+        this.businessName = businessName;
+        this.phoneNumber = phoneNumber;
+        
+    }
     public Seller(String email, String password) throws SQLException, ClassNotFoundException {
         this();
         this.email = email;
@@ -157,5 +169,37 @@ public class Seller {
             String nextSellerID = "SEL/" + 1;
             return nextSellerID;
         }
+    }
+    
+    public static boolean deleteSellerById(Connection con, String id) {
+        String query = "DELETE FROM seller WHERE sellerID=?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, id);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public static List<Seller> getAllSellers(Connection con) throws ClassNotFoundException {
+        List<Seller> sellerList = new ArrayList<>();
+        String query = "SELECT * FROM seller";
+        try (PreparedStatement pstm = con.prepareStatement(query);
+             ResultSet rs = pstm.executeQuery()) {
+            while (rs.next()) {
+                Seller seller = new Seller(
+                        rs.getString("fullName"),
+                        rs.getString("email"),
+                        rs.getString("businessName"),
+                        rs.getInt("phoneNo")
+                );
+                seller.setSellerID(rs.getString("sellerID"));
+                sellerList.add(seller);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sellerList;
     }
 }

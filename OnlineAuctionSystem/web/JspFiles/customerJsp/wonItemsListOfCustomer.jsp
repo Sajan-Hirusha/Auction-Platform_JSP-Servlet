@@ -12,7 +12,7 @@
     String message = "";
     String customerID = (String) session.getAttribute("customerID");
     if (customerID == null) {
-        response.sendRedirect("login.jsp");
+       response.sendRedirect("../LoginJsp/login.jsp");
         return;
     }
 

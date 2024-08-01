@@ -6,7 +6,7 @@ body {
 .container {
     margin-top: 30px;
     min-height: 71vh;
-    height:auto;
+    height: auto;
 }
 
 .header-buttons {
@@ -17,14 +17,23 @@ body {
 
 .card {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .card-img-top {
-    height: 180px;
+    height: 150px;
+    width: 150px;
     object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card-body {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
@@ -56,6 +65,7 @@ body {
     text-align: right;
     margin-bottom: 20px;
 }
+
 #countdown {
     background-color: #f8f9fa;
     padding: 10px;
@@ -63,6 +73,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 .countdown-timer {
     font-size: 1.2rem;
     font-weight: bold;

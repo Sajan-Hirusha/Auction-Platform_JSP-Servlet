@@ -2,7 +2,14 @@
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html;charset=UTF-8" %>
-
+<%
+    String customerID = (String) session.getAttribute("customerID");
+    if (customerID != null) {
+        response.sendRedirect("../customerJsp/customerDashboard.jsp");
+        return;
+    }
+   
+%>
 <html>
     <head>
         <title>Seller Registration page</title>
@@ -20,8 +27,7 @@
         </style>
     </head>
     <body>
-        <%
-            String message = "";
+        <%            String message = "";
             if ("POST".equalsIgnoreCase(request.getMethod())) {
 
                 String fullName = request.getParameter("fullName");

@@ -23,7 +23,7 @@
         <%
             String sellerID = (String) session.getAttribute("sellerID");
             if (sellerID == null) {
-                response.sendRedirect("login.jsp");
+                 response.sendRedirect("../LoginJsp/login.jsp");
                 return;
             }
 
@@ -61,7 +61,7 @@
                     <a href="toBeShipped.jsp" class="btn btn-secondary">Items To Be Shipped</a>
                 </div>
 
-                <h1>Active Auctions</h1>
+                <h1>My Active Auctions</h1>
 
                 <div class="row">
                     <div class="col-12">

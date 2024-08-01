@@ -3,6 +3,15 @@
 <%@ page import="java.util.List" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+            String message = "";
+            String sellerID = (String) session.getAttribute("sellerID");
+            if (sellerID == null) {
+                response.sendRedirect("../LoginJsp/login.jsp");
+                return;
+            }
+        %>
 <html>
     <head>
         <title>Title</title>
@@ -26,14 +35,7 @@
                 <a id="logout" href="../LoginJsp/logout.jsp" class="btn btn-outline-danger">Logout</a>
             </div>
         </div>
-        <%
-            String message = "";
-            String sellerID = (String) session.getAttribute("sellerID");
-            if (sellerID == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-        %>
+        
         <div id="alertContainer"></div>
 
         <div class="col-12 my-3">

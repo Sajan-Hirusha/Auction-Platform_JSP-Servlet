@@ -3,6 +3,15 @@
 <%@page import="java.io.InputStream"%>
 <%@ page import="com.app.classes.Item" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    String sellerID = (String) session.getAttribute("sellerID");
+    if (sellerID == null) {
+        response.sendRedirect("../LoginJsp/login.jsp");
+        return;
+    }
+%>
+
 <html>
     <head>
         <title>Update</title>

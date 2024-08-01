@@ -4,6 +4,15 @@
 <%@ page errorPage="error.jsp" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 
+
+<%
+    String sellerID = (String) session.getAttribute("sellerID");
+    if (sellerID == null) {
+        response.sendRedirect("../LoginJsp/login.jsp");
+        return;
+    }
+%>
+
 <%
     String message = "";
     if ("POST".equalsIgnoreCase(request.getMethod())) {

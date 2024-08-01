@@ -28,7 +28,7 @@
             String message1 = "";
             String sellerID = (String) session.getAttribute("sellerID");
             if (sellerID == null) {
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../LoginJssp/login.jsp");
                 return;
             }
             if ("POST".equalsIgnoreCase(request.getMethod())) {

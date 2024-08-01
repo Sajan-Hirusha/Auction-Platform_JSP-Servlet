@@ -33,7 +33,7 @@
             Bid bid = null;
             Bid getMaxBid = new Bid();
             if (customerID == null) {
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../LoginJsp/login.jsp");
                 return;
             }
             String itemId = request.getParameter("id");

@@ -77,7 +77,7 @@
             </div>
             <div class="container mt-3 col-6" >
                 <form action="removeListing.jsp" method="post">
-                    <h1 class="mb-4">Delete form</h1>
+                    <h1 class="mb-4">Delete Confirmation</h1>
                     <div class="row">
                         <div class="col-md-4">
                             <% if (item.getBase64Image() != null && !item.getBase64Image().isEmpty()) {%>

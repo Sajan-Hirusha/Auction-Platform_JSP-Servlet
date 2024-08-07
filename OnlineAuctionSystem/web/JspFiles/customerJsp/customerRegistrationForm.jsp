@@ -8,7 +8,7 @@
         response.sendRedirect("../customerJsp/customerDashboard.jsp");
         return;
     }
-   
+
 %>
 <html>
     <head>
@@ -17,6 +17,7 @@
               crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/RegistrationForm.css">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+        <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
         <style>
             #imgSection img{
                 height: 100%;
@@ -139,20 +140,25 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-2">
-                                    <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"  required>
+                                    <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" 
+                                           pattern="^(?:7|0|(?:\\+94))[0-9]{9,10}$" title="Please enter a valid phone number." required>
                                     <label for="phoneNumber" class="form-label">Phone Number</label>
 
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-2">
-                                    <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" required>
+                                   <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password"
+                                           pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$" 
+                                           title="Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character." required>
                                     <label for="password" class="form-label">Password</label>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-2">
-                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" value="" placeholder="Password" required>
+                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" value="" placeholder="Password"
+                                           pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$"  
+                                           title="Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character." required>
                                     <label for="confirmPassword"  class="form-label"> Confirm Password</label>
                                 </div>
                             </div>
@@ -190,8 +196,8 @@
             var serverMessage = "<%= message%>";
         </script>
 
-        <script src="../../JS/formValidation.js"></script>
+          <script src="../../JS/formValidationWithFailure.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     </body>
 </html>

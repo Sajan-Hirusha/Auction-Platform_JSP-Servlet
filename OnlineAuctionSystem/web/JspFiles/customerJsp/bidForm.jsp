@@ -10,6 +10,7 @@
     <title>Submit Bid</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+    <link rel="stylesheet" href="../../CSS/alertSuccess.css">
     <link rel="stylesheet" href="../../CSS/bidForm.css">
     <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
     <style>
@@ -171,7 +172,7 @@
         } else if (serverMessage !== "" && serverMessage !== null) {
             document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>');
         } else {
-            document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>'); // Default behavior
+            document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>'); 
         }
     </script>
 </body>

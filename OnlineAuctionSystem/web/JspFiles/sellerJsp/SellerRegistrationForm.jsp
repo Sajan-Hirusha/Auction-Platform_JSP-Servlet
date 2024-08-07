@@ -136,20 +136,24 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-2">
-                                    <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"  required>
+                                    <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" 
+                                           pattern="^(?:7|0|(?:\\+94))[0-9]{9,10}$" title="Please enter a valid phone number." required>
                                     <label for="phoneNumber" class="form-label">Phone Number</label>
 
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-2">
-                                    <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" required>
+                                    <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password"
+                                           pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$"  
+                                           title="Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character." required>
                                     <label for="password" class="form-label">Password</label>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-2">
-                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" value="" placeholder="Password" required>
+                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" value="" placeholder="Password"  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$"  
+                                           title="Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character." required>
                                     <label for="confirmPassword"  class="form-label"> Confirm Password</label>
                                 </div>
                             </div>

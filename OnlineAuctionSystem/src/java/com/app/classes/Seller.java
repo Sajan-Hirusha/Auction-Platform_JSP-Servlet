@@ -32,7 +32,7 @@ public class Seller {
         this.email = email;
         this.businessName = businessName;
         this.phoneNumber = phoneNumber;
-        this.password = password;
+        this.password = MD5.getMd5(password);
     }
 
     public Seller(String fullName, String email, String businessName, int phoneNumber) throws SQLException, ClassNotFoundException {
@@ -47,7 +47,7 @@ public class Seller {
     public Seller(String email, String password) throws SQLException, ClassNotFoundException {
         this();
         this.email = email;
-        this.password = password;
+        this.password = MD5.getMd5(password);
     }
 
     public String getFullName() {
@@ -87,7 +87,7 @@ public class Seller {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = MD5.getMd5(password);
     }
 
     public String getSellerID() {

@@ -17,22 +17,26 @@
               crossorigin="anonymous">
         <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
         <link rel="stylesheet" href="../../CSS/sellerDashboard.css">
-
+       
     </head>
     <body>
         <%
             String sellerID = (String) session.getAttribute("sellerID");
             if (sellerID == null) {
-                 response.sendRedirect("../LoginJsp/login.jsp");
+                response.sendRedirect("../LoginJsp/login.jsp");
                 return;
             }
 
-            List<Item> items = new ArrayList<Item>();
+            List<Item> activeItems = new ArrayList<Item>();
+            List<Item> upcommingItems = new ArrayList<Item>();
+            List<Item> endedItems = new ArrayList<Item>();
             Auction auction = new Auction();
             auction.setSellerId(sellerID);
 
             try {
-                items = auction.getSellerActiveAuctionItems();
+                activeItems = auction.getSellerActiveAuctionItems();
+                upcommingItems = auction.getSellerUpcommingAuctionItems();
+                endedItems = auction.getSellerEnedAuctionItems();
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -77,13 +81,13 @@
                                     <th>Time Left</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody >
                                 <%
-                                    if (!items.isEmpty()) {
-                                        for (Item item : items) {
+                                    if (!activeItems.isEmpty()) {
+                                        for (Item item : activeItems) {
                                 %>
-                                <tr>
-                                    <td><%= item.getItemId()%></td>
+                                <tr >
+                                    <td ><%= item.getItemId()%></td>
                                     <td><%= item.getItemName()%></td>
                                     <td><%= item.getDescription()%></td>
                                     <td><%= item.getCondition()%></td>
@@ -112,6 +116,110 @@
                     </div>
                 </div>
 
+                <h1>My Upcomming Auctions</h1>
+
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-hover" >
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Item Name</th>
+                                    <th>Item Description</th>
+                                    <th>Item Condition</th>
+                                    <th>Item Category</th>
+                                    <th>Item Image</th>
+                                    <th>Time Left</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                    if (!upcommingItems.isEmpty()) {
+                                        for (Item item : upcommingItems) {
+                                %>
+                                <tr >
+                                    <td ><%= item.getItemId()%></td>
+                                    <td><%= item.getItemName()%></td>
+                                    <td><%= item.getDescription()%></td>
+                                    <td><%= item.getCondition()%></td>
+                                    <td><%= item.getCategory()%></td>
+                                    <td>
+                                        <% if (!item.getBase64Image().isEmpty()) {%>
+                                        <img src="data:image/jpeg;base64,<%= item.getBase64Image()%>" style="width: 100px; height: auto;">
+                                        <% } else { %> 
+                                        No Image 
+                                        <% }%>
+                                    </td>
+                                    <td id="countdown2-<%= item.getItemId()%>" class="countdown-timer"></td>
+                                </tr>
+                                <%
+                                    }
+                                } else {
+                                %>
+                                <tr>
+                                    <td colspan="7" class="no-items">No items found.</td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <h1>My Ended Auctions</h1>
+
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Item Name</th>
+                                    <th>Item Description</th>
+                                    <th>Item Condition</th>
+                                    <th>Item Category</th>
+                                    <th>Item Image</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                    if (!endedItems.isEmpty()) {
+                                        for (Item item : endedItems) {
+                                %>
+                                <tr>
+                                    <td><%= item.getItemId()%></td>
+                                    <td><%= item.getItemName()%></td>
+                                    <td><%= item.getDescription()%></td>
+                                    <td><%= item.getCondition()%></td>
+                                    <td><%= item.getCategory()%></td>
+                                    <td>
+                                        <% if (!item.getBase64Image().isEmpty()) {%>
+                                        <img src="data:image/jpeg;base64,<%= item.getBase64Image()%>" style="width: 100px; height: auto;">
+                                        <% } else { %> 
+                                        No Image 
+                                        <% }%>
+                                    </td>
+
+                                </tr>
+                                <%
+                                    }
+                                } else {
+                                %>
+                                <tr>
+                                    <td colspan="7" class="no-items">No items found.</td>
+                                </tr>
+                                <%
+                                    }
+                                %>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
             </div>
         </div>
         <footer class="footer">
@@ -122,8 +230,9 @@
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function () {
             <%
-                    for (Item item : items) {
-                        String endDate = item.getEndDateAndTime();
+         // Active Items Countdown
+         for (Item item : activeItems) {
+             String endDate = item.getEndDateAndTime();
             %>
                 (function () {
                     var endDate = new Date("<%= endDate%>").getTime();
@@ -148,9 +257,39 @@
                     }, 1000);
                 })();
             <%
-                    }
+         }
+
+         // Upcoming Items Countdown
+         for (Item item : upcommingItems) {
+             String startDate = item.getStartingDateAndTime();
+            %>
+                (function () {
+                    var startDate = new Date("<%= startDate%>").getTime();
+                    var timerElement = document.getElementById('countdown2-<%= item.getItemId()%>');
+
+                    var countdown = setInterval(function () {
+                        var now = new Date().getTime();
+                        var distance = startDate - now;
+
+                        if (distance < 0) {
+                            clearInterval(countdown);
+                            timerElement.innerHTML = "Auction Started";
+                            return;
+                        }
+
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                    }, 1000);
+                })();
+            <%
+         }
             %>
             });
         </script>
+
     </body>
 </html>

@@ -16,7 +16,11 @@
     border-bottom: 2px solid #dee2e6;
 }
 .table tbody td {
+  
     vertical-align: middle;
+}
+.table tr td{
+      font-size: 13px;
 }
 .table img {
     border-radius: 8px;

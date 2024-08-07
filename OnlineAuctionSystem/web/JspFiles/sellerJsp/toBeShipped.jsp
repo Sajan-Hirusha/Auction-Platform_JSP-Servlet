@@ -16,6 +16,7 @@
         String auctionID = request.getParameter("auctionID");
         String mailMessage = "Your Item Shipped Now.";
         String subject = "Confirmation of item shipped";
+        System.out.println(email);
         EmailSender.sendEmail(email, subject, mailMessage);
 
         if (new Auction().itemShiped(auctionID)) {
@@ -100,7 +101,7 @@
                             <td><%= item.getAddress()%></td>
                             <td><%= item.getPhoneNo()%></td>
                             <td>
-                                <form method="post">
+                                <form method="post" action="toBeShipped.jsp">
                                     <input type="hidden" name="email" value="<%= item.getEmail()%>">
                                     <input type="hidden" name="auctionID" value="<%= item.getAuctionID()%>">
                                     <button type="submit" class="btn btn-success" name="buyNow">Shipped Now</button>

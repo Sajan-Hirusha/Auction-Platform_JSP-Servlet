@@ -115,8 +115,8 @@ public class Auction {
         }
     }
 
-    public List<Item> getSellerActiveAuctionItems() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='active'";
+    public List<Item> getSellerAuctionItems(String query) throws SQLException, ClassNotFoundException {
+        String sql = query;
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, this.getSellerId());
         ResultSet resultSet = statement.executeQuery();
@@ -143,9 +143,29 @@ public class Auction {
         return itemList;
 
     }
+    
+    public List<Item> getSellerActiveAuctionItems() throws SQLException, ClassNotFoundException {
+        List<Item> items = new ArrayList<Item>();
+        String query="SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='active'";
+        items=getSellerAuctionItems(query);
+        return items;
+    }
+    public List<Item> getSellerUpcommingAuctionItems() throws SQLException, ClassNotFoundException {
+        List<Item> items = new ArrayList<Item>();
+        String query="SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='pending'";
+        items=getSellerAuctionItems(query);
+        return items;
+    }
+    
+    public List<Item> getSellerEnedAuctionItems() throws SQLException, ClassNotFoundException {
+        List<Item> items = new ArrayList<Item>();
+        String query="SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='ended'";
+        items=getSellerAuctionItems(query);
+        return items;
+    }
 
     public List<Item> getAllActiveAuctionItems() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.status='active' LIMIT 10";
+        String sql = "SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.status='active' ";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
         List<Item> itemList = new ArrayList<Item>();

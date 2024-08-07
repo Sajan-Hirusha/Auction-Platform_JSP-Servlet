@@ -143,22 +143,27 @@
                     <div class="col-md-12">
                         <label for="validationCustomUsername" class="form-label">Edit Description</label>
                         <textarea class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
-                                  rows="3" name="updateDescription" value="<%=item != null ? item.getDescription() : ""%>" required>
-                        </textarea>
+                                  rows="3" name="updateDescription" required><%= item != null ? item.getDescription() : ""%></textarea>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
                         <div class="invalid-feedback">
-                            Please choose a valid Email.
+                            Please choose a valid description.
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <label for="validationCustom07" class="form-label">Edit Category</label>
                         <select class="form-select" id="validationCustom07" name="updateCategory" required>
                             <option selected disabled value="">Choose...</option>
                             <option value="tech" <%= item != null && "Tech".equals(item.getCategory()) ? "selected" : ""%>>Tech</option>
-                            <option value="home" <%= item != null && "Home".equals(item.getCategory()) ? "selected" : ""%>>Home</option>
-                            <option value="electronic">Electronic</option>
+                            <option value="fashion" <%= item != null && "Fashion".equals(item.getCategory()) ? "selected" : ""%>>Fashion</option>
+                            <option value="electronic" <%= item != null && "Electronic".equals(item.getCategory()) ? "selected" : ""%>>Electronic</option>
+                            <option value="travel" <%= item != null && "Travel".equals(item.getCategory()) ? "selected" : ""%>>Travel</option>
+                            <option value="music" <%= item != null && "Music".equals(item.getCategory()) ? "selected" : ""%>>Music</option>
+                            <option value="sport" <%= item != null && "Sport".equals(item.getCategory()) ? "selected" : ""%>>Sport</option>
+                            <option value="business" <%= item != null && "Business".equals(item.getCategory()) ? "selected" : ""%>>Business</option>
+                            <option value="office" <%= item != null && "Office".equals(item.getCategory()) ? "selected" : ""%>>Office</option>
                         </select>
                         <div class="valid-feedback">
                             Looks good!

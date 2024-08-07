@@ -12,8 +12,8 @@ import javax.mail.internet.*;
 public class EmailSender {
 
     public static void sendEmail(String to, String subject, String messageBody) {
-        final String username = ""; // Your email
-        final String password = ""; // Your email password
+        final String username = "sajanhirushaportfolio@gmail.com"; // Your email
+        final String password = "bqdqrjjerftiaofm"; // Your email password
 
         // Set up the SMTP server.
         Properties props = new Properties();
@@ -32,7 +32,7 @@ public class EmailSender {
         try {
             // Create a message.
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("")); //
+            message.setFrom(new InternetAddress("sajanhirushaportfolio@gmail.com")); //
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(subject);
             message.setText(messageBody);

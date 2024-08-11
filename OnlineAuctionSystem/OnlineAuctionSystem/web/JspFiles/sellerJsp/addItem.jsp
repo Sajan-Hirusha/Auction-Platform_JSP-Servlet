@@ -1,0 +1,169 @@
+<%@page import="com.app.classes.Seller"%>
+<%@page import="java.net.URLEncoder"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.app.classes.Item" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.io.*" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.app.dbConnection.DbConnection" %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Add Item</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="../../CSS/alertBoxFailure.css">
+        <link rel="stylesheet" href="../../CSS/alertSuccess.css">
+        <link rel="stylesheet" href="../../CSS/headerAndFooter.css">
+        <link rel="stylesheet" href="../../CSS/AddItem.css">
+
+    </head>
+    <body>
+
+        <%
+            String message = "";
+            String message1 = "";
+            String sellerID = (String) session.getAttribute("sellerID");
+            if (sellerID == null) {
+                response.sendRedirect("../LoginJssp/login.jsp");
+                return;
+            }
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                String itemName = request.getParameter("itemName");
+                String description = request.getParameter("description");
+                String category = request.getParameter("category");
+                String condition = request.getParameter("condition");
+
+                if (itemName != null && description != null && category != null && condition != null) {
+                    Part filePart = request.getPart("productImage");
+                    InputStream fileContent = filePart.getInputStream();
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = fileContent.read(buffer)) != -1) {
+                        output.write(buffer, 0, length);
+                    }
+                    byte[] fileBytes = output.toByteArray();
+                    try {
+                        Item newItem = new Item(description, itemName, fileBytes, condition, category, sellerID);
+                        if (newItem.addItem()) {
+                            message1 = "Item Added Successfully!";
+                        } else {
+                            message = "Failed to add item";
+                        }
+                    } catch (SQLException e) {
+                        message = "Error!";
+                    }
+                }
+            }
+
+            message = message == null ? "" : message;
+            message1 = message1 == null ? "" : message1;
+        %>
+        <div id="alertContainer"></div>
+        <div id="alertContainer1"></div>
+
+        <div id="navbar-container" >
+            <img src="../images/logo.png" alt="logo" class="nav-img" style="width: 100px">
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-menu-item">Home</a>
+                <a href="../../index.html#about" class="nav-menu-item">About Us</a>
+                <a href="../../index.html#services" class="nav-menu-item">Our Services</a>
+                <a href="../../index.html#contact" class="nav-menu-item">Contact Us</a>
+            </div>
+
+            <div >
+                <a id="logout" href="../LoginJsp/logout.jsp">Logout</a>
+            </div>
+
+        </div>
+        <div id="main">
+            <div class="col-12">
+                <a href="sellerDashboard.jsp" class="btn btn-primary backButton">Back to seller dashboard</a>
+            </div>
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="text-center">
+                            <h2 class="mb-4">Add Item</h2>
+                        </div>
+
+                        <form method="post" action="" class="row g-3 needs-validation" enctype="multipart/form-data" novalidate>
+                            <div class="col-md-6">
+                                <label for="validationCustom01" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" id="validationCustom01" name="itemName" required>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please provide a valid item name.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="validationCustom05" class="form-label">Upload Image</label>
+                                <input type="file" class="form-control" id="validationCustom05" name="productImage" accept="image/*" required>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please upload an image.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="validationCustom06" class="form-label">Category</label>
+                                <select class="form-select" id="validationCustom06" name="category" required>
+                                    <option selected disabled value="">Choose...</option>
+                                    <option value="tech">Tech</option>
+                                    <option value="fashion">Fashion</option>
+                                    <option value="electronic">Electronic</option>
+                                    <option value="travel">Travel</option>
+                                    <option value="music">Music</option>
+                                    <option value="sport">Sport</option>
+                                    <option value="business">Business</option>
+                                    <option value="office">Office</option>
+                                </select>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please select a category.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="validationCustom04" class="form-label">Condition</label>
+                                <select class="form-select" id="validationCustom04" name="condition" required>
+                                    <option selected disabled value="">Choose...</option>
+                                    <option value="new">Brand New</option>
+                                    <option value="used">Used</option>
+                                </select>
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please select a condition.</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="validationCustomUsername" class="form-label">Description</label>
+                                <textarea class="form-control" id="validationCustomUsername" name="description" required></textarea>
+
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">Please provide a valid description.</div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary float-end" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" >
+            Copyright &#169; <span>AuctionPulse</span>. All rights reserved.
+        </footer>
+
+
+        <script>
+            var serverMessage = "<%= message%>";
+            var serverMessage1 = "<%= message1%>";
+
+            if (serverMessage1 !== "" && serverMessage1 !== null) {
+                document.write('<script src="../../JS/formvalidationWithSuccessAlert.js"><\/script>');
+            } else if (serverMessage !== "" && serverMessage !== null) {
+                document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>');
+            } else {
+                document.write('<script src="../../JS/formValidationWithFailure.js"><\/script>'); // Default behavior
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>

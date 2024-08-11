@@ -143,24 +143,25 @@ public class Auction {
         return itemList;
 
     }
-    
+
     public List<Item> getSellerActiveAuctionItems() throws SQLException, ClassNotFoundException {
         List<Item> items = new ArrayList<Item>();
-        String query="SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='active'";
-        items=getSellerAuctionItems(query);
+        String query = "SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='active'";
+        items = getSellerAuctionItems(query);
         return items;
     }
+
     public List<Item> getSellerUpcommingAuctionItems() throws SQLException, ClassNotFoundException {
         List<Item> items = new ArrayList<Item>();
-        String query="SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='pending'";
-        items=getSellerAuctionItems(query);
+        String query = "SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='pending'";
+        items = getSellerAuctionItems(query);
         return items;
     }
-    
+
     public List<Item> getSellerEnedAuctionItems() throws SQLException, ClassNotFoundException {
         List<Item> items = new ArrayList<Item>();
-        String query="SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='ended'";
-        items=getSellerAuctionItems(query);
+        String query = "SELECT item.*,auction.* FROM item JOIN auction ON item.itemId = auction.itemId WHERE auction.sellerID = ? AND status='ended'";
+        items = getSellerAuctionItems(query);
         return items;
     }
 
@@ -193,24 +194,11 @@ public class Auction {
         return itemList;
     }
 
-    public List<ItemWinnerDetails> getEndItemsAndWinners(String sellerID) {
-
+    public List<ItemWinnerDetails> getItemsCommonFunction(String ID, String query) {
         List<ItemWinnerDetails> itemsWithWinners = new ArrayList<>();
-
-        String query = "SELECT i.itemId, i.description, i.itemName, i.itemImage, i.itemCondition, "
-                + "c.customerID, c.fullName, c.phoneNo, c.address, c.email, "
-                + "b.bidID, b.bidDateAndTime, b.bidAmount , a.auctionID ,a.sellerID "
-                + "FROM auction a "
-                + "JOIN bid b ON a.auctionID = b.auctionID "
-                + "JOIN item i ON a.itemId = i.itemId "
-                + "JOIN customer c ON b.customerID = c.customerID "
-                + "WHERE a.status = 'ended' "
-                + "AND a.currentBid = b.bidAmount "
-                + "AND a.sellerID=?";
-
         try (
                 PreparedStatement stmt = connection.prepareStatement(query);) {
-            stmt.setString(1, sellerID);
+            stmt.setString(1, ID);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String itemId = rs.getString("itemId");
@@ -240,6 +228,26 @@ public class Auction {
         }
 
         return itemsWithWinners;
+
+    }
+
+    public List<ItemWinnerDetails> getEndItemsAndWinners(String sellerID) {
+
+        List<ItemWinnerDetails> itemsWithWinners = new ArrayList<>();
+
+        String query = "SELECT i.itemId, i.description, i.itemName, i.itemImage, i.itemCondition, "
+                + "c.customerID, c.fullName, c.phoneNo, c.address, c.email, "
+                + "b.bidID, b.bidDateAndTime, b.bidAmount , a.auctionID ,a.sellerID "
+                + "FROM auction a "
+                + "JOIN bid b ON a.auctionID = b.auctionID "
+                + "JOIN item i ON a.itemId = i.itemId "
+                + "JOIN customer c ON b.customerID = c.customerID "
+                + "WHERE a.status = 'ended' "
+                + "AND a.currentBid = b.bidAmount "
+                + "AND a.sellerID=?";
+
+        itemsWithWinners = getItemsCommonFunction(sellerID, query);
+        return itemsWithWinners;
     }
 
     public List<ItemWinnerDetails> getCustomerWonItems(String customerID) {
@@ -257,39 +265,7 @@ public class Auction {
                 + "AND a.currentBid = b.bidAmount "
                 + "AND b.customerID = ?";
 
-        try (
-                PreparedStatement stmt = connection.prepareStatement(query);) {
-            stmt.setString(1, customerID);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String itemId = rs.getString("itemId");
-                String auctionID = rs.getString("auctionID");
-                String sellerID = rs.getString("sellerID");
-                String description = rs.getString("description");
-                String itemName = rs.getString("itemName");
-                byte[] itemImage = rs.getBytes("itemImage");
-                String itemCondition = rs.getString("itemCondition");
-                String customerId = rs.getString("customerID");
-                String fullName = rs.getString("fullName");
-                String phoneNo = rs.getString("phoneNo");
-                String address = rs.getString("address");
-                String email = rs.getString("email");
-                String bidID = rs.getString("bidID");
-                String bidDateAndTime = rs.getString("bidDateAndTime");
-                double bidAmount = rs.getDouble("bidAmount");
-
-                String base64Image = Base64.getEncoder().encodeToString(itemImage);
-                ItemWinnerDetails itemWinner = new ItemWinnerDetails(itemId, description, itemName, base64Image, itemCondition,
-                        customerId, fullName, phoneNo, address, email,
-                        bidID, bidDateAndTime, bidAmount, auctionID, sellerID);
-
-                itemsWithWinners.add(itemWinner);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        itemsWithWinners = getItemsCommonFunction(customerID, query);
         return itemsWithWinners;
     }
 
@@ -308,39 +284,7 @@ public class Auction {
                 + "AND a.status = 'paid' "
                 + "AND a.sellerID = ? ";
 
-        try (
-                PreparedStatement stmt = connection.prepareStatement(query);) {
-            stmt.setString(1, sellerID);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String itemId = rs.getString("itemId");
-                String auctionID = rs.getString("auctionID");
-                String sellerId = rs.getString("sellerID");
-                String description = rs.getString("description");
-                String itemName = rs.getString("itemName");
-                byte[] itemImage = rs.getBytes("itemImage");
-                String itemCondition = rs.getString("itemCondition");
-                String customerId = rs.getString("customerID");
-                String fullName = rs.getString("fullName");
-                String phoneNo = rs.getString("phoneNo");
-                String address = rs.getString("address");
-                String email = rs.getString("email");
-                String bidID = rs.getString("bidID");
-                String bidDateAndTime = rs.getString("bidDateAndTime");
-                double bidAmount = rs.getDouble("bidAmount");
-
-                String base64Image = Base64.getEncoder().encodeToString(itemImage);
-                ItemWinnerDetails itemWinner = new ItemWinnerDetails(itemId, description, itemName, base64Image, itemCondition,
-                        customerId, fullName, phoneNo, address, email,
-                        bidID, bidDateAndTime, bidAmount, auctionID, sellerId);
-
-                itemsWithWinners.add(itemWinner);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        itemsWithWinners = getItemsCommonFunction(sellerID, query);
         return itemsWithWinners;
     }
 
@@ -351,11 +295,11 @@ public class Auction {
 
         return statement.executeUpdate() > 0;
     }
+
 //    public static void main(String[] args) throws ClassNotFoundException, SQLException {
 //        Auction auction=new Auction();
 //        auction.getEndItemsAndWinners();
 //    }
-
 //   public String getAuctionIdFromItemID(String itemId) throws SQLException {
 //      String sql = "SELECT auctionID FROM auction WHERE itemId=?";
 //      PreparedStatement statement = connection.prepareStatement(sql);
@@ -368,6 +312,7 @@ public class Auction {
 //      return null;
 //   }
 }
+
 
 //DELIMITER //
 //

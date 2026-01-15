@@ -72,15 +72,6 @@ Through this project, we gained practical experience in:
 
 ---
 
-## 👥 Group Members
-
-- Member 1  
-- Member 2  
-- Member 3  
-- Member 4  
-
----
-
 ## 🔗 Project Links
 
 - **GitHub Repository:** [GitHub Link]  

@@ -74,8 +74,7 @@ Through this project, we gained practical experience in:
 
 ## 🔗 Project Links
 
-- **GitHub Repository:** [GitHub Link]  
-- **Live Demo:** [Project Demo Link]  
+- **Live Demo:** [[Project Demo Link](https://drive.google.com/file/d/1k4noZR3G-bXDPnk0iiAwe_b3wQ5QP8zq/view?usp=sharing)]  
 
 ---
 
